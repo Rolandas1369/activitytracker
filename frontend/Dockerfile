@@ -5,7 +5,7 @@ RUN chown -Rh $user:$user /frontend
 USER $user
 
 WORKDIR /app/frontend/
-
+RUN ls -la
 # Install dependencies
 
 # Add rest of the client code
