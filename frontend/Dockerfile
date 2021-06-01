@@ -1,5 +1,8 @@
 # Use an official node runtime as a parent image
 FROM node:latest
+RUN chown -Rh $user:$user /node_modules
+
+USER $user
 
 WORKDIR /app/frontend/
 
