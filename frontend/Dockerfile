@@ -7,6 +7,7 @@ WORKDIR /app/frontend/
 
 # Add rest of the client code
 COPY . /app/frontend/
+RUN npm config set unsafe-perm true
 RUN npm install
 
 EXPOSE 3000
