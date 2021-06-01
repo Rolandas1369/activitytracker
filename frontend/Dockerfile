@@ -1,6 +1,6 @@
 # Use an official node runtime as a parent image
 FROM node:latest
-RUN ls -la
+RUN echo ls -la
 RUN chown -Rh $user:$user /var/lib/jenkins/workspace/ActivityTrackerBuild/frontend
 
 USER $user
