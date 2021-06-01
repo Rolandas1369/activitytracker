@@ -7,7 +7,7 @@ WORKDIR /app/frontend/
 
 # Add rest of the client code
 COPY . /app/frontend/
-RUN npm install 
+RUN npm install
 
 EXPOSE 3000
 
