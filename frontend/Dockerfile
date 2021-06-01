@@ -1,11 +1,12 @@
 # Use an official node runtime as a parent image
 FROM node:latest
+RUN ls -la
 RUN chown -Rh $user:$user /frontend
 
 USER $user
 
 WORKDIR /app/frontend/
-RUN echo ls -la
+
 # Install dependencies
 
 # Add rest of the client code
