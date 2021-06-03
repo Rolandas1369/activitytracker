@@ -1,6 +1,5 @@
 version: "3.2"
 services:
-
   db:
     image: postgres
     environment:
@@ -15,7 +14,7 @@ services:
       - "8000:8000"
     command: python3 manage.py runserver 0.0.0.0:8000
     depends_on:
-        - db
+      - db
   frontend:
     build: ./frontend
     volumes:
@@ -29,3 +28,14 @@ services:
     depends_on:
       - backend
     command: npm start
+  jenkins:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - 8083:8080
+      - 50003:50000
+    container_name: my-jenkins-3
+    volumes:
+      - ~/jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
