@@ -34,7 +34,7 @@ services:
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
-      - build_folder:/home/app/frontend/build
+      - build_folder:/var/www/frontend
     ports:
       - 80:80
     depends_on:
