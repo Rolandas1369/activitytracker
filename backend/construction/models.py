@@ -8,4 +8,3 @@ class ConstructionSites(models.Model):
     started_at = models.DateField()
     ended_at = models.DateField()
     price = models.PositiveIntegerField()
-    

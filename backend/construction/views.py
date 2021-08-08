@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+
 @api_view(['GET', 'POST'])
 def construction_sites_list(request):
     """
@@ -18,7 +19,7 @@ def construction_sites_list(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        
+       
         serializer = ConstructionSitesSerializers(data=request.data)
         if serializer.is_valid():
             serializer.save()
