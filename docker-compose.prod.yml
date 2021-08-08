@@ -21,17 +21,28 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env.prod.db
+  
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    volumes:
+      - build_folder:/frontend/build
+  
   nginx:
     build: ./nginx
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
+      - build_folder:/home/app/frontend/build
     ports:
       - 80:80
     depends_on:
       - web
+      - frontend
 
 volumes:
   postgres_data:
   static_volume:
   media_volume:
+  build_folder:
