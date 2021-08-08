@@ -28,7 +28,6 @@ services:
       dockerfile: Dockerfile.prod
     volumes:
       - build_folder:/frontend/build
-  
   nginx:
     build: ./nginx
     volumes:
@@ -40,6 +39,11 @@ services:
     depends_on:
       - web
       - frontend
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080  
 
 volumes:
   postgres_data:

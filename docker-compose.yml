@@ -27,7 +27,12 @@ services:
         - ./frontend/src:/frontend/src
         # - node-modules:/app/frontend/node_modules
       ports:
-        - "3000:3000"  
+        - "3000:3000"
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
 
 volumes:
   postgres_data:
