@@ -1,7 +1,7 @@
 FROM node
-WORKDIR /app/frontend
-COPY package.json /app/frontend
-RUN npm install
+WORKDIR /frontend
+COPY package.json /frontend
+RUN yarn install
 COPY . .
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
