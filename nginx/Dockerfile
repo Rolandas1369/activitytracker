@@ -4,6 +4,7 @@ FROM node:13.12.0-alpine as build
 
 WORKDIR /app/frontend
 COPY ./frontend/package.json ./
+RUN yarn install
 COPY ./frontend/ ./
 RUN yarn run build
 
