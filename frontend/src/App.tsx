@@ -1,8 +1,15 @@
-import React, {useState} from 'react';
-
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 
 
 function App() {
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/construction/').then((data) => {
+      console.log(data)
+    })
+  })
+
 
   const [site, setSite] = useState([
   {
