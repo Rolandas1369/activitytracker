@@ -1,4 +1,4 @@
-FROM node
+FROM node:14.15-alpine
 WORKDIR /frontend
 COPY package.json /frontend
 RUN yarn install
