@@ -5,7 +5,7 @@ import axios from 'axios';
 function App() {
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/construction/').then((data) => {
+    axios.get('http://activitytracker.xyz/api/construction/').then((data) => {
       console.log(data)
     })
   })
