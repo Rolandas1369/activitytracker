@@ -1,6 +1,6 @@
 # The first stage
 # Build React static files
-FROM node:13.12.0-alpine as build
+FROM node:14-alpine as build
 
 WORKDIR /app/frontend
 COPY ./frontend/package.json ./
