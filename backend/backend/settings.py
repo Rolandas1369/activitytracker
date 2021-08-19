@@ -23,7 +23,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = os.environ.get("DEBUG", default=False)
 
-ALLOWED_HOSTS = ['activitytracker.xyz', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['activitytracker.xyz', 'localhost', '127.0.0.1', 'api']
 
 
 # Application definition
@@ -116,6 +116,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://activitytracker.xyz/",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "api"
 ]
 
 # Internationalization
