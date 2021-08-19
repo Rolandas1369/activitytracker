@@ -22,23 +22,26 @@ services:
     env_file:
       - ./.env.prod.db
   
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
-    volumes:
-      - build_folder:/frontend/build
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile.prod
+  #   volumes:
+  #     - build_folder:/frontend/build
   nginx:
-    build: ./nginx
+    build: 
+      context: .
+      dockerfile: ./nginx/Dockerfile
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
-      - build_folder:/var/www/frontend
+      - build_folder:/var/www/frontend/build
+      - ./nginx:/etc/nginx/conf.d
     ports:
       - 80:80
     depends_on:
       - web
-      - frontend
+      # - frontend
   adminer:
     image: adminer
     restart: always
