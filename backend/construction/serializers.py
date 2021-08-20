@@ -1,7 +1,8 @@
 from django.db.models import fields
 from rest_framework import serializers, generics
+from rest_framework.decorators import permission_classes
 from construction.models import ConstructionSites
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+
 
 class ConstructionSitesSerializers(serializers.ModelSerializer):
     
