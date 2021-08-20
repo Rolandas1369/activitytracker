@@ -1,10 +1,10 @@
 from django.urls import path
 from account.api.views import (
-    registration_view
+    CustomUserCreate
 )
 
 app_name = "accounts"
 
 urlpatterns = [
-    path('register', registration_view, name="register")
+    path('register/', CustomUserCreate.as_view(), name="register")
 ]

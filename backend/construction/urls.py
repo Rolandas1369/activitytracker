@@ -5,6 +5,6 @@ from . import views
 
 
 urlpatterns = [
-    path('construction/', views.construction_sites_list),
-    path('construction/<int:pk>/', views.construction_sites_detail),
+    path('construction/', views.ConstructionSitesList.as_view()),
+    path('construction/<int:pk>/', views.CostructionSiteDetails.as_view()),
 ]
