@@ -1,6 +1,4 @@
-from rest_framework import serializers, generics
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
+from rest_framework import generics
 from construction.models import ConstructionSites
 from construction.serializers import ConstructionSitesSerializers
 from rest_framework import status
