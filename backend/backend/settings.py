@@ -23,7 +23,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = os.environ.get("DEBUG", default=False)
 
-ALLOWED_HOSTS = ['activitytracker.xyz', 'localhost', '127.0.0.1', 'api']
+ALLOWED_HOSTS = ['activitytracker.xyz', 'localhost', '127.0.0.1', 'api', 'backend']
 
 
 # Application definition

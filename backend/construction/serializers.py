@@ -1,11 +1,24 @@
+from django.db import models
 from django.db.models import fields
-from rest_framework import serializers, generics
-from rest_framework.decorators import permission_classes
-from construction.models import ConstructionSites
+from rest_framework import serializers
+from construction.models import Order, WorkDay
 
 
-class ConstructionSitesSerializers(serializers.ModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
     
     class Meta:
-        model = ConstructionSites
+        model = Order
         fields = ('__all__')
+
+class WorkDaySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WorkDay
+        fields = ('__all__')
+
+class ExpenseSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WorkDay
+        fields = ('__all__')
+

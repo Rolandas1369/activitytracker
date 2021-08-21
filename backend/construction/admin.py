@@ -1,4 +1,8 @@
 from django.contrib import admin
-from .models import ConstructionSites
+from .models import Order, Worker, WorkDay, Product, Expense
 # Register your models here.
-admin.site.register(ConstructionSites)
+admin.site.register(Order)
+admin.site.register(Worker)
+admin.site.register(WorkDay)
+admin.site.register(Product)
+admin.site.register(Expense)

@@ -1,16 +1,20 @@
 from rest_framework import generics
-from construction.models import ConstructionSites
-from construction.serializers import ConstructionSitesSerializers
+from construction.models import Order, WorkDay, Expense
+from construction.serializers import OrderSerializer, WorkDaySerializer, ExpenseSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 
 
-class ConstructionSitesList(generics.ListCreateAPIView):
-    queryset = ConstructionSites.objects.all()
-    serializer_class = ConstructionSitesSerializers
+class OrdersList(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
 
-class CostructionSiteDetails(generics.RetrieveDestroyAPIView):
-    queryset = ConstructionSites.objects.all()
-    serializer_class = ConstructionSitesSerializers
+class WorkDaysList(generics.ListCreateAPIView):
+    queryset = WorkDay.objects.all()
+    serializer_class = WorkDaySerializer
+
+class ExpensesList(generics.ListCreateAPIView):
+    queryset = Expense.objects.all()
+    serializer_class = ExpenseSerializer
