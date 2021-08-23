@@ -13,7 +13,7 @@ class Order(models.Model):
     def __str__(self) -> str:
         return self.name
 
-class Expense(models.Model):
+class OrderExpense(models.Model):
     product_quantity = models.FloatField()
     product = models.ForeignKey('Product', on_delete=CASCADE)
     order = models.ForeignKey('Order', on_delete=CASCADE)
@@ -29,6 +29,23 @@ class Expense(models.Model):
         
     def __str__(self) -> str:
         return self.order.name
+
+class WorkerExpense(models.Model):
+    category = models.CharField(max_length=150)
+    worker = models.ForeignKey('Worker', on_delete=CASCADE)
+    date_paid = models.DateField()
+    amount = models.FloatField(null=True)
+
+    def __str__(self) -> str:
+        return self.worker
+
+class ConstructionItem(models.Model):
+    item = models.CharField(max_length=150)
+    price = models.FloatField()
+    date_bought = models.DateField()   
+
+    def __str__(self) -> str:
+        return self.product 
 
 
 class Product(models.Model):

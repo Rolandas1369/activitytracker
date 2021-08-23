@@ -1,10 +1,6 @@
 from rest_framework import generics
-from construction.models import Order, WorkDay, Expense
-from construction.serializers import OrderSerializer, WorkDaySerializer, ExpenseSerializer
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
+from construction.models import Order, WorkDay, OrderExpense
+from construction.serializers import OrderSerializer, WorkDaySerializer, OrderExpenseSerializer
 
 
 class OrdersList(generics.ListCreateAPIView):
@@ -16,5 +12,5 @@ class WorkDaysList(generics.ListCreateAPIView):
     serializer_class = WorkDaySerializer
 
 class ExpensesList(generics.ListCreateAPIView):
-    queryset = Expense.objects.all()
-    serializer_class = ExpenseSerializer
+    queryset = OrderExpense.objects.all()
+    serializer_class = OrderExpenseSerializer

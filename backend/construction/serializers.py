@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
-from construction.models import Order, WorkDay
+from construction.models import Order, WorkDay, OrderExpense
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -16,9 +16,9 @@ class WorkDaySerializer(serializers.ModelSerializer):
         model = WorkDay
         fields = ('__all__')
 
-class ExpenseSerializer(serializers.ModelSerializer):
+class OrderExpenseSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = WorkDay
+        model = OrderExpense
         fields = ('__all__')
 
