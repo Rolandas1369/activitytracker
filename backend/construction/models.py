@@ -25,6 +25,13 @@ class OrderExpense(models.Model):
         self.order.balance = self.order.balance - cost_of_product 
         self.order.save()
     
+    def delete(self, *args, **kwargs):
+        cost_of_product = self.product_quantity * self.product.price_per_unit
+        
+        super().save(*args, **kwargs)  # Call the "real" save() method.balance
+        self.order.balance = self.order.balance + cost_of_product 
+        self.order.save()
+    
     # TODO implement delete functionality
         
     def __str__(self) -> str:
@@ -38,6 +45,8 @@ class WorkerExpense(models.Model):
 
     def __str__(self) -> str:
         return self.worker
+
+    
 
 class ConstructionItem(models.Model):
     item = models.CharField(max_length=150)
@@ -80,6 +89,11 @@ class WorkingTime(models.Model):
     def save(self, *args, **kwargs):    
         super().save(*args, **kwargs)  # Call the "real" save() method.balance
         self.order.balance = self.order.balance - (self.worker.hourly_salary * self.hours)
+        self.order.save()
+
+    def delete(self, *args, **kwargs):    
+        super().save(*args, **kwargs)  # Call the "real" save() method.balance
+        self.order.balance = self.order.balance + (self.worker.hourly_salary * self.hours)
         self.order.save()
 
     # TODO implement delete functionality
