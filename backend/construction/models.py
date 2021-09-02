@@ -6,9 +6,9 @@ class Order(models.Model):
     location = models.CharField(max_length=150)
     starting_at = models.DateField()
     started_at = models.DateField()
-    ended_at = models.DateField(null=True)
+    ended_at = models.DateField(null=True, blank=True)
     price = models.FloatField()
-    balance = models.FloatField(default=0)
+    balance = models.FloatField(default=1)
               
     def __str__(self) -> str:
         return self.name
