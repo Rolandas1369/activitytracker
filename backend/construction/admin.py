@@ -11,6 +11,8 @@ class OrderAdmin(admin.ModelAdmin):
         return obj.started_at.strftime("%Y-%m-%d %A")
     
     def ended_at_format(self, obj):
+        if not obj.ended_at:
+            return None
         return obj.ended_at.strftime("%Y-%m-%d %A")
 
     list_display = ('name', 'location', 'starting_at_format', 'started_at_format', 'ended_at_format', 'price', 'balance')
