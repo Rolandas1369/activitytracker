@@ -8,7 +8,7 @@ class Order(models.Model):
     started_at = models.DateField(null=True, blank=True)
     ended_at = models.DateField(null=True, blank=True)
     price = models.FloatField()
-    balance = models.FloatField(default=1)
+    balance = models.FloatField(default=10)
               
     def __str__(self) -> str:
         return self.name
