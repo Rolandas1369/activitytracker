@@ -5,9 +5,13 @@ from .models import Order, Worker, WorkDay, Product, OrderExpense, WorkingTime, 
 class OrderAdmin(admin.ModelAdmin):
 
     def starting_at_format(self, obj):
+        if not obj.starting_at:
+            return None
         return obj.starting_at.strftime("%Y-%m-%d %A")
     
     def started_at_format(self, obj):
+        if not obj.started_at:
+            return None
         return obj.started_at.strftime("%Y-%m-%d %A")
     
     def ended_at_format(self, obj):
