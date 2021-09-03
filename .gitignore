@@ -6,4 +6,3 @@ venv
 __pycache
 .DS_Store
 __pycache__
-migrations
