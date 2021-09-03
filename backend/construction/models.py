@@ -5,7 +5,7 @@ class Order(models.Model):
     name = models.CharField(max_length=150)
     location = models.CharField(max_length=150)
     starting_at = models.DateField(null=True, blank=True)
-    began_at = models.DateField(default='2021-05-07')
+    began_at = models.DateField(default='2021-05-07', null=True, blank=True)
     ended_at = models.DateField(null=True, blank=True)
     price = models.FloatField()
     balance = models.FloatField(default=10)
