@@ -10,9 +10,9 @@ class OrderAdmin(admin.ModelAdmin):
         return obj.starting_at.strftime("%Y-%m-%d %A")
     
     def started_at_format(self, obj):
-        if not obj.started_at:
+        if not obj.began_at:
             return None
-        return obj.started_at.strftime("%Y-%m-%d %A")
+        return obj.began_at.strftime("%Y-%m-%d %A")
     
     def ended_at_format(self, obj):
         if not obj.ended_at:
