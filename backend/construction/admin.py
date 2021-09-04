@@ -22,7 +22,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('name', 'location', 'starting_at_format', 'started_at_format', 'ended_at_format', 'price', 'balance')
 
 class WorkerAdmin(admin.ModelAdmin): 
-    list_display = ('name', 'surname', 'hourly_salary')
+    list_display = ('name', 'surname', 'hourly_salary', 'taxes_amount_per_day')
 
 class WorkDayAdmin(admin.ModelAdmin): 
 
