@@ -10,7 +10,9 @@ class Order(models.Model):
     began_at = models.DateField(default='2021-05-07', null=True, blank=True)
     ended_at = models.DateField(null=True, blank=True)
     price = models.FloatField()
-    balance = models.FloatField(default=10)
+
+    def get_balance(self):
+        return 10
               
     def __str__(self) -> str:
         return self.name
@@ -33,8 +35,6 @@ class OrderExpense(models.Model):
         super().save(*args, **kwargs)  # Call the "real" save() method.balance
         self.order.balance = self.order.balance + cost_of_product 
         self.order.save()
-    
-    # TODO implement delete functionality
         
     def __str__(self) -> str:
         return self.order.name
@@ -79,7 +79,7 @@ class Worker(models.Model):
     name = models.CharField(max_length=150, blank=False)
     surname = models.CharField(max_length=150, blank=False)
     hourly_salary = models.FloatField()
-    taxes_amount_per_day = models.FloatField(default=8.8)    
+    taxes_amount_per_hour = models.FloatField(default=8.8)    
 
     def __str__(self) -> str:
         return self.name
@@ -91,11 +91,20 @@ class WorkingTime(models.Model):
     hours = models.FloatField()
     work_day = models.ForeignKey('WorkDay', on_delete=CASCADE, null=True)
     bonus = models.FloatField(default=0)
+    calculated_pay = models.FloatField(default=None, editable=False)
 
-    def save(self, *args, **kwargs):    
+    @property
+    def cp(self):
+        return self.worker.hourly_salary * self.hours + self.worker.taxes_amount_per_hour * self.hours + self.bonus
+
+    def save(self, *args, **kwargs):   
+        self.calculated_pay = self.cp
         super().save(*args, **kwargs)  # Call the "real" save() method.balance
-        self.order.balance = self.order.balance - self.worker.taxes_amount_per_day - self.bonus -  (self.worker.hourly_salary * self.hours)
-        self.order.save()
+        
+        # TODO taxes amount must be splited by hours
+        # self.order.balance = self.order.balance - self.worker.taxes_amount_per_day - self.bonus -  (self.worker.hourly_salary * self.hours)
+        # self.calculated_pay.save()
+    
 
     def delete(self, *args, **kwargs):    
         super().save(*args, **kwargs)  # Call the "real" save() method.balance

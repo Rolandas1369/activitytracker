@@ -19,10 +19,10 @@ class OrderAdmin(admin.ModelAdmin):
             return None
         return obj.ended_at.strftime("%Y-%m-%d %A")
 
-    list_display = ('name', 'location', 'starting_at_format', 'started_at_format', 'ended_at_format', 'price', 'balance')
+    list_display = ('name', 'location', 'starting_at_format', 'started_at_format', 'ended_at_format', 'price')
 
 class WorkerAdmin(admin.ModelAdmin): 
-    list_display = ('name', 'surname', 'hourly_salary', 'taxes_amount_per_day')
+    list_display = ('name', 'surname', 'hourly_salary', 'taxes_amount_per_hour')
 
 class WorkDayAdmin(admin.ModelAdmin): 
 
@@ -37,7 +37,7 @@ class WorkTimesAdmin(admin.ModelAdmin):
         return obj.work_day.date.strftime("%Y-%m-%d %A")
     
 
-    list_display = ('worker', 'order', 'hours', 'work_date_format', 'bonus')
+    list_display = ('worker', 'order', 'hours', 'work_date_format', 'bonus', 'calculated_pay')
 
 class WorkExpenceAdmin(admin.ModelAdmin):
 
