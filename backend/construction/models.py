@@ -1,5 +1,7 @@
+from typing import Callable
 from django.db import models
 from django.db.models.deletion import CASCADE
+from django.db.models.fields import related
 
 class Order(models.Model):
     name = models.CharField(max_length=150)
@@ -42,9 +44,10 @@ class WorkerExpense(models.Model):
     worker = models.ForeignKey('Worker', on_delete=CASCADE)
     date_paid = models.DateField()
     amount = models.FloatField(null=True)
+    assigned_to_order = models.ForeignKey('Order', on_delete=CASCADE, default=None)
 
     def __str__(self) -> str:
-        return self.worker
+        return self.worker.name
 
     
 
@@ -52,7 +55,7 @@ class ConstructionItem(models.Model):
     item = models.CharField(max_length=150)
     price = models.FloatField()
     date_bought = models.DateField()
-    related_order_expence = models.ForeignKey(Order, on_delete=CASCADE, default=None)   
+    related_order_expence = models.ForeignKey('Order', on_delete=CASCADE, default=None)   
 
     def __str__(self) -> str:
         return self.item 
