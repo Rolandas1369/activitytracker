@@ -31,6 +31,13 @@ class WorkDayAdmin(admin.ModelAdmin):
 
     list_display = ('date_format',)
 
+class WorkExpenceAdmin(admin.ModelAdmin):
+
+    def date_paid_format(self, obj):
+        return obj.date_paid.strftime("%Y-%m-%d %A") 
+
+    list_display = ('category', 'worker', 'date_paid_format', 'amount', 'assigned_to_order')
+
 # Register your models here.
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Worker, WorkerAdmin)
@@ -38,7 +45,7 @@ admin.site.register(WorkDay, WorkDayAdmin)
 admin.site.register(Product)
 admin.site.register(OrderExpense)
 admin.site.register(WorkingTime)
-admin.site.register(WorkerExpense)
+admin.site.register(WorkerExpense, WorkExpenceAdmin)
 admin.site.register(ConstructionItem)
 
 
