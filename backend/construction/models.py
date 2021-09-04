@@ -3,7 +3,7 @@ from django.db.models.deletion import CASCADE
 
 class Order(models.Model):
     name = models.CharField(max_length=150)
-    location = models.CharField(max_length=150)
+    location = models.CharField(max_length=150, null=True, blank=True)
     starting_at = models.DateField(null=True, blank=True)
     began_at = models.DateField(default='2021-05-07', null=True, blank=True)
     ended_at = models.DateField(null=True, blank=True)
@@ -74,7 +74,8 @@ class WorkDay(models.Model):
 class Worker(models.Model):
     name = models.CharField(max_length=150, blank=False)
     surname = models.CharField(max_length=150, blank=False)
-    hourly_salary = models.FloatField()    
+    hourly_salary = models.FloatField()
+    taxes_amount_per_day = models.FloatField(default=8.8)    
 
     def __str__(self) -> str:
         return self.name
@@ -88,15 +89,13 @@ class WorkingTime(models.Model):
 
     def save(self, *args, **kwargs):    
         super().save(*args, **kwargs)  # Call the "real" save() method.balance
-        self.order.balance = self.order.balance - (self.worker.hourly_salary * self.hours)
+        self.order.balance = self.order.balance - self.worker.taxes_amount_per_day - (self.worker.hourly_salary * self.hours)
         self.order.save()
 
     def delete(self, *args, **kwargs):    
         super().save(*args, **kwargs)  # Call the "real" save() method.balance
-        self.order.balance = self.order.balance + (self.worker.hourly_salary * self.hours)
+        self.order.balance = self.order.balance +  self.worker.taxes_amount_per_day + (self.worker.hourly_salary * self.hours)
         self.order.save()
-
-    # TODO implement delete functionality
         
     def __str__(self) -> str:
         return self.order.name    
