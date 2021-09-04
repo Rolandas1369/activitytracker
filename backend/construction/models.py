@@ -51,10 +51,11 @@ class WorkerExpense(models.Model):
 class ConstructionItem(models.Model):
     item = models.CharField(max_length=150)
     price = models.FloatField()
-    date_bought = models.DateField()   
+    date_bought = models.DateField()
+    related_order_expence = models.ForeignKey(Order, on_delete=CASCADE, default=None)   
 
     def __str__(self) -> str:
-        return self.product 
+        return self.item 
 
 
 class Product(models.Model):
@@ -86,15 +87,16 @@ class WorkingTime(models.Model):
     order = models.ForeignKey('Order', on_delete=CASCADE)
     hours = models.FloatField()
     work_day = models.ForeignKey('WorkDay', on_delete=CASCADE, null=True)
+    bonus = models.FloatField(default=0)
 
     def save(self, *args, **kwargs):    
         super().save(*args, **kwargs)  # Call the "real" save() method.balance
-        self.order.balance = self.order.balance - self.worker.taxes_amount_per_day - (self.worker.hourly_salary * self.hours)
+        self.order.balance = self.order.balance - self.worker.taxes_amount_per_day - self.bonus -  (self.worker.hourly_salary * self.hours)
         self.order.save()
 
     def delete(self, *args, **kwargs):    
         super().save(*args, **kwargs)  # Call the "real" save() method.balance
-        self.order.balance = self.order.balance +  self.worker.taxes_amount_per_day + (self.worker.hourly_salary * self.hours)
+        self.order.balance = self.order.balance +  self.worker.taxes_amount_per_day + self.bonus + (self.worker.hourly_salary * self.hours)
         self.order.save()
         
     def __str__(self) -> str:
