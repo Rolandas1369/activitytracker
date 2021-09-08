@@ -70,7 +70,7 @@ class Product(models.Model):
 
 
 class WorkDay(models.Model):
-    date = models.DateField()
+    date = models.DateField(unique=True)
 
     def __str__(self) -> str:
         return str(self.date)
@@ -92,6 +92,7 @@ class WorkingTime(models.Model):
     work_day = models.ForeignKey('WorkDay', on_delete=CASCADE, null=True)
     bonus = models.FloatField(default=0)
     calculated_pay = models.FloatField(default=None, editable=False)
+    worked_on = models.CharField(max_length=1000, default=None, null=True, blank=True)
 
     @property
     def cp(self):

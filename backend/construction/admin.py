@@ -27,6 +27,8 @@ class WorkerAdmin(admin.ModelAdmin):
 class WorkDayAdmin(admin.ModelAdmin): 
 
     def date_format(self, obj):
+        if not obj.date:
+            return None
         return obj.date.strftime("%Y-%m-%d %A")
 
     list_display = ('date_format',)
@@ -34,10 +36,12 @@ class WorkDayAdmin(admin.ModelAdmin):
 class WorkTimesAdmin(admin.ModelAdmin): 
 
     def work_date_format(self, obj):
+        if not obj.work_day:
+            return None
         return obj.work_day.date.strftime("%Y-%m-%d %A")
     
-
-    list_display = ('worker', 'order', 'hours', 'work_date_format', 'bonus', 'calculated_pay')
+    list_filter = ('work_day',)
+    list_display = ('worker', 'work_date_format', 'order', 'hours',  'bonus', 'calculated_pay', 'worked_on')
 
 class WorkExpenceAdmin(admin.ModelAdmin):
 
