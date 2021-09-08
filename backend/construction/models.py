@@ -61,9 +61,18 @@ class ConstructionItem(models.Model):
         return self.item 
 
 
+
 class Product(models.Model):
+
+    class UnitType(models.TextChoices):
+        METERS = 'M', ('Meters')
+        CUBIC_METERS = 'M3', ('Cubic meters')
+        SQUARE_METERS = 'M2', ('Square meters')
+        HOURS = "H", ('Hours')
+
     product_type = models.CharField(max_length=150)
     price_per_unit = models.FloatField()
+    unit_type = models.CharField(max_length=2, choices=UnitType.choices, default=UnitType.CUBIC_METERS)
 
     def __str__(self) -> str:
         return self.product_type
