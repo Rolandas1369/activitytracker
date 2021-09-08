@@ -21,20 +21,12 @@ class OrderExpense(models.Model):
     product_quantity = models.FloatField()
     product = models.ForeignKey('Product', on_delete=CASCADE)
     order = models.ForeignKey('Order', on_delete=CASCADE)
+    calculated_expense = models.FloatField(editable=False)
 
     def save(self, *args, **kwargs):
-        cost_of_product = self.product_quantity * self.product.price_per_unit
+        self.calculated_expense = self.product_quantity * self.product.price_per_unit
         
-        super().save(*args, **kwargs)  # Call the "real" save() method.balance
-        self.order.balance = self.order.balance - cost_of_product 
-        self.order.save()
-    
-    def delete(self, *args, **kwargs):
-        cost_of_product = self.product_quantity * self.product.price_per_unit
-        
-        super().save(*args, **kwargs)  # Call the "real" save() method.balance
-        self.order.balance = self.order.balance + cost_of_product 
-        self.order.save()
+        super().save(*args, **kwargs)
         
     def __str__(self) -> str:
         return self.order.name
@@ -110,16 +102,6 @@ class WorkingTime(models.Model):
     def save(self, *args, **kwargs):   
         self.calculated_pay = self.cp
         super().save(*args, **kwargs)  # Call the "real" save() method.balance
-        
-        # TODO taxes amount must be splited by hours
-        # self.order.balance = self.order.balance - self.worker.taxes_amount_per_day - self.bonus -  (self.worker.hourly_salary * self.hours)
-        # self.calculated_pay.save()
-    
-
-    def delete(self, *args, **kwargs):    
-        super().save(*args, **kwargs)  # Call the "real" save() method.balance
-        self.order.balance = self.order.balance +  self.worker.taxes_amount_per_day + self.bonus + (self.worker.hourly_salary * self.hours)
-        self.order.save()
         
     def __str__(self) -> str:
         return self.order.name    

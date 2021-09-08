@@ -50,12 +50,16 @@ class WorkExpenceAdmin(admin.ModelAdmin):
 
     list_display = ('category', 'worker', 'date_paid_format', 'amount', 'assigned_to_order')
 
+
+class OrderExpenseAdmin(admin.ModelAdmin):
+    list_display = ('product_quantity', 'product', 'order', 'calculated_expense')
+
 # Register your models here.
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Worker, WorkerAdmin)
 admin.site.register(WorkDay, WorkDayAdmin)
 admin.site.register(Product)
-admin.site.register(OrderExpense)
+admin.site.register(OrderExpense, OrderExpenseAdmin)
 admin.site.register(WorkingTime, WorkTimesAdmin)
 admin.site.register(WorkerExpense, WorkExpenceAdmin)
 admin.site.register(ConstructionItem)
