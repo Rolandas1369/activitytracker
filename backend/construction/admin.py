@@ -40,8 +40,9 @@ class WorkTimesAdmin(admin.ModelAdmin):
             return None
         return obj.work_day.date.strftime("%Y-%m-%d %A")
     
+    
     list_filter = ('work_day',)
-    list_display = ('worker', 'work_date_format', 'order', 'hours',  'bonus', 'calculated_pay', 'worked_on')
+    list_display = ('worker', 'work_day', 'work_date_format', 'order', 'hours',  'bonus', 'calculated_pay', 'worked_on')
 
 class WorkExpenceAdmin(admin.ModelAdmin):
 
