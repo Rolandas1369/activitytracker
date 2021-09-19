@@ -19,12 +19,17 @@ class Order(models.Model):
 
 class OrderExpense(models.Model):
     product_quantity = models.FloatField()
-    product = models.ForeignKey('Product', on_delete=CASCADE)
+    product = models.ForeignKey('Product', on_delete=CASCADE, blank=True, default=None, null=True)
+    fixed_price_item = models.CharField(max_length=100, default=None, blank=True, null=True)
     order = models.ForeignKey('Order', on_delete=CASCADE)
     calculated_expense = models.FloatField(editable=False)
+    amount_payd = models.FloatField(default=None, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        self.calculated_expense = self.product_quantity * self.product.price_per_unit
+        if self.product:
+            self.calculated_expense = self.product_quantity * self.product.price_per_unit
+        else:
+            self.calculated_expense = self.amount_payd
         
         super().save(*args, **kwargs)
         

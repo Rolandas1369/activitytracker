@@ -52,7 +52,7 @@ class WorkExpenceAdmin(admin.ModelAdmin):
 
 
 class OrderExpenseAdmin(admin.ModelAdmin):
-    list_display = ('product_quantity', 'product', 'order', 'calculated_expense')
+    list_display = ('product_quantity', 'fixed_price_item', 'product', 'order', 'calculated_expense')
 
 # Register your models here.
 admin.site.register(Order, OrderAdmin)
