@@ -1,4 +1,3 @@
-from typing import Callable
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.fields import related
@@ -23,6 +22,7 @@ class OrderExpense(models.Model):
     fixed_price_item = models.CharField(max_length=100, default=None, blank=True, null=True)
     order = models.ForeignKey('Order', on_delete=CASCADE)
     calculated_expense = models.FloatField(editable=False)
+    date_payd = models.DateField(default=None, blank=True, null=True)
     amount_payd = models.FloatField(default=None, blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -74,11 +74,11 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.product_type
 
-
+from django.db.models import F
 class WorkDay(models.Model):
     date = models.DateField(unique=True)
-
-    def __str__(self) -> str:
+    
+    def __str__(self):
         return str(self.date)
 
 class Worker(models.Model):
@@ -99,6 +99,8 @@ class WorkingTime(models.Model):
     bonus = models.FloatField(default=0)
     calculated_pay = models.FloatField(default=None, editable=False)
     worked_on = models.CharField(max_length=1000, default=None, null=True, blank=True)
+
+    
 
     @property
     def cp(self):

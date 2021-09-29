@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import query
 from .models import Order, Worker, WorkDay, Product, OrderExpense, WorkingTime, WorkerExpense, ConstructionItem
 
 
@@ -29,9 +30,10 @@ class WorkDayAdmin(admin.ModelAdmin):
     def date_format(self, obj):
         if not obj.date:
             return None
-        return obj.date.strftime("%Y-%m-%d %A")
+        return str(obj.date.strftime("%Y-%m-%d %A"))
 
-    list_display = ('date_format',)
+    list_display = ('date_format','date',)
+    list_filter = ('date',)
 
 class WorkTimesAdmin(admin.ModelAdmin): 
 
@@ -39,8 +41,17 @@ class WorkTimesAdmin(admin.ModelAdmin):
         if not obj.work_day:
             return None
         return obj.work_day.date.strftime("%Y-%m-%d %A")
+
+    def get_queryset(self, request):
+        queryset = super(WorkTimesAdmin, self).get_queryset(request)
+        
+        queryset = queryset.order_by('work_day')
+        
+        return queryset
+
+
     
-    
+   
     list_filter = ('work_day',)
     list_display = ('worker', 'work_day', 'work_date_format', 'order', 'hours',  'bonus', 'calculated_pay', 'worked_on')
 
@@ -53,7 +64,7 @@ class WorkExpenceAdmin(admin.ModelAdmin):
 
 
 class OrderExpenseAdmin(admin.ModelAdmin):
-    list_display = ('product_quantity', 'fixed_price_item', 'product', 'order', 'calculated_expense')
+    list_display = ('product_quantity', 'date_payd', 'fixed_price_item', 'product', 'order', 'calculated_expense')
 
 # Register your models here.
 admin.site.register(Order, OrderAdmin)
