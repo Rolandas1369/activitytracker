@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.fields import related
+from django.utils import tree
 
 class Order(models.Model):
     name = models.CharField(max_length=150)
@@ -77,6 +78,11 @@ class Product(models.Model):
 from django.db.models import F
 class WorkDay(models.Model):
     date = models.DateField(unique=True)
+    date_formated = models.CharField(default=None, null=True, blank=True, max_length=100)
+
+    def save(self, *args, **kwargs):   
+        self.date_formated = self.date.strftime("%Y-%m-%d %A")
+        super().save(*args, **kwargs)  # Call the "real" save() method.balance
     
     def __str__(self):
         return str(self.date)

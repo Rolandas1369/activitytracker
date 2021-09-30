@@ -32,7 +32,7 @@ class WorkDayAdmin(admin.ModelAdmin):
             return None
         return str(obj.date.strftime("%Y-%m-%d %A"))
 
-    list_display = ('date_format','date',)
+    list_display = ('date_format','date', 'date_formated')
     list_filter = ('date',)
 
 class WorkTimesAdmin(admin.ModelAdmin): 
@@ -44,16 +44,13 @@ class WorkTimesAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         queryset = super(WorkTimesAdmin, self).get_queryset(request)
-        
-        queryset = queryset.order_by('work_day')
-        
-        return queryset
+        return queryset.order_by('-work_day__date_formated')
 
 
     
    
     list_filter = ('work_day',)
-    list_display = ('worker', 'work_day', 'work_date_format', 'order', 'hours',  'bonus', 'calculated_pay', 'worked_on')
+    list_display = ('worker', 'work_date_format', 'order', 'hours',  'bonus', 'calculated_pay', 'worked_on')
 
 class WorkExpenceAdmin(admin.ModelAdmin):
 
