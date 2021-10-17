@@ -20,7 +20,7 @@ class OrderAdmin(admin.ModelAdmin):
             return None
         return obj.ended_at.strftime("%Y-%m-%d %A")
 
-    list_display = ('name', 'location', 'starting_at_format', 'started_at_format', 'ended_at_format', 'price')
+    list_display = ('name', 'location', 'starting_at_format', 'started_at_format', 'ended_at_format', 'price', 'completed')
 
 class WorkerAdmin(admin.ModelAdmin): 
     list_display = ('name', 'surname', 'hourly_salary', 'taxes_amount_per_hour')

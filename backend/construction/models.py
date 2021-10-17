@@ -9,6 +9,7 @@ class Order(models.Model):
     starting_at = models.DateField(null=True, blank=True)
     began_at = models.DateField(default='2021-05-07', null=True, blank=True)
     ended_at = models.DateField(null=True, blank=True)
+    completed = models.BooleanField(default=False)
     price = models.FloatField()
 
     def get_balance(self):
@@ -75,7 +76,6 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.product_type
 
-from django.db.models import F
 class WorkDay(models.Model):
     date = models.DateField(unique=True)
     date_formated = models.CharField(default=None, null=True, blank=True, max_length=100)
@@ -85,7 +85,7 @@ class WorkDay(models.Model):
         super().save(*args, **kwargs)  # Call the "real" save() method.balance
     
     def __str__(self):
-        return str(self.date)
+        return str(self.date.strftime("%Y-%m-%d %A"))
 
 class Worker(models.Model):
     name = models.CharField(max_length=150, blank=False)
