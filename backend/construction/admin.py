@@ -49,7 +49,7 @@ class WorkTimesAdmin(admin.ModelAdmin):
 
     
    
-    list_filter = ('work_day', 'worker')
+    list_filter = ('work_day', 'worker', 'order')
     list_display = ('worker', 'work_date_format', 'order', 'hours',  'bonus', 'calculated_pay', 'worked_on')
 
 class WorkExpenceAdmin(admin.ModelAdmin):
