@@ -32,6 +32,9 @@ class WorkDayAdmin(admin.ModelAdmin):
             return None
         return str(obj.date.strftime("%Y-%m-%d %A"))
 
+    def get_ordering(self, request):
+        return('-date',)
+
     list_display = ('date_format','date', 'date_formated')
     list_filter = ('date',)
 
@@ -42,11 +45,12 @@ class WorkTimesAdmin(admin.ModelAdmin):
             return None
         return obj.work_day.date.strftime("%Y-%m-%d %A")
 
-    def get_queryset(self, request):
-        queryset = super(WorkTimesAdmin, self).get_queryset(request)
-        return queryset.order_by('-work_day__date_formated')
+    # def get_queryset(self, request):
+    #     queryset = super(WorkTimesAdmin, self).get_queryset(request)
+    #     return queryset.order_by('-work_day__date_formated')
 
-
+    def get_ordering(self, request):
+        return('-work_day__date_formated',)
     
    
     list_filter = ('work_day', 'worker', 'order')
