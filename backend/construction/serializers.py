@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from construction.models import Order, WorkDay, OrderExpense
+from construction.models import Order, WorkDay, WorkingTime, OrderExpense
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -12,6 +12,12 @@ class WorkDaySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkDay
+        fields = ('__all__')
+
+class WorkTimesSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = WorkingTime
         fields = ('__all__')
 
 class OrderExpenseSerializer(serializers.ModelSerializer):

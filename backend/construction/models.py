@@ -101,15 +101,13 @@ class WorkingTime(models.Model):
     calculated_pay = models.FloatField(default=None, editable=False)
     worked_on = models.CharField(max_length=1000, default=None, null=True, blank=True)
 
-    
-
     @property
     def cp(self):
         return self.worker.hourly_salary * self.hours + self.worker.taxes_amount_per_hour * self.hours + self.bonus
 
     def save(self, *args, **kwargs):   
         self.calculated_pay = self.cp
-        super().save(*args, **kwargs)  # Call the "real" save() method.balance
+        super().save(*args, **kwargs)
         
     def __str__(self) -> str:
         return self.order.name    
