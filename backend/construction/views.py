@@ -7,6 +7,14 @@ class OrdersList(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
+class OrderDetailsView(generics.RetrieveUpdateDestroyAPIView):
+
+    serializer_class = OrderSerializer
+    
+    queryset = Order.objects.all()
+
+
+
 class WorkDaysList(generics.ListCreateAPIView):
     queryset = WorkDay.objects.all()
     serializer_class = WorkDaySerializer

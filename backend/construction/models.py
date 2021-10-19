@@ -1,7 +1,5 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
-from django.db.models.fields import related
-from django.utils import tree
 
 class Order(models.Model):
     name = models.CharField(max_length=150)
@@ -11,9 +9,6 @@ class Order(models.Model):
     ended_at = models.DateField(null=True, blank=True)
     completed = models.BooleanField(default=False)
     price = models.FloatField()
-
-    def get_balance(self):
-        return 10
               
     def __str__(self) -> str:
         return self.name
@@ -24,7 +19,7 @@ class OrderExpense(models.Model):
     fixed_price_item = models.CharField(max_length=100, default=None, blank=True, null=True)
     order = models.ForeignKey('Order', on_delete=CASCADE)
     calculated_expense = models.FloatField(editable=False)
-    date_payd = models.DateField(default=None, blank=True, null=True)
+    date_paid = models.DateField(default=None, blank=True, null=True)
     amount_payd = models.FloatField(default=None, blank=True, null=True)
 
     def save(self, *args, **kwargs):
