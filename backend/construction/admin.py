@@ -26,15 +26,10 @@ class WorkerAdmin(admin.ModelAdmin):
 
 class WorkDayAdmin(admin.ModelAdmin): 
 
-    def date_format(self, obj):
-        if not obj.date:
-            return None
-        return str(obj.date.strftime("%Y-%m-%d %A"))
-
     def get_ordering(self, request):
         return('-date',)
 
-    list_display = ('date_format','date', 'date_formated')
+    list_display = ('date', 'date_formated')
     list_filter = ('date',)
 
 class WorkTimesAdmin(admin.ModelAdmin): 
