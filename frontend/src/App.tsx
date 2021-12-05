@@ -1,36 +1,25 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
-
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import axiosInstance  from './axios';
+import Login from './components/login/login';
+import HomePage from './components/homepage/homepage';
 
 function App() {
 
-  useEffect(() => {
-    axios.get('http://activitytracker.xyz/api/construction/').then((data) => {
-      console.log(data)
-    })
-  })
-
-
-  const [site, setSite] = useState([
-  {
-    name: "Zujunai",
-    location: "100.100",
-    price: 1000,
-    workers: ['Tomas', 'Viktoras']
-  },
-  {
-    name: "Zujunai",
-    location: "100.100",
-    price: 1000,
-    workers: ['Tomas', 'Viktoras']
-  },
-]);
-
-
   return (
-    <div className="App">
-      <h1>Objektai</h1>
-    </div>
+
+    <Router>
+    <Switch>
+      <Route path='/login'>
+        <Login></Login>
+        </Route>
+        <Route path='/'>
+          <HomePage></HomePage>
+        </Route>
+    </Switch>
+    
+  </Router>
+
   );
 }
 

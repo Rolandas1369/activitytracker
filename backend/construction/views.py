@@ -22,6 +22,12 @@ class WorkingTimesList(generics.ListCreateAPIView):
     queryset = WorkingTime.objects.all()
     serializer_class = WorkTimesSerializer
 
+class WorkingTimesDetailsView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = WorkTimesSerializer
+    
+    def get_queryset(self):  
+        return WorkingTime.objects.all()
+
 
 class ExpensesList(generics.ListCreateAPIView):
     queryset = OrderExpense.objects.all()
