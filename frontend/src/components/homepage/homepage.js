@@ -15,7 +15,7 @@ const HomePage = () => {
 
 
             axios.get( 
-            'http://localhost:8000/api/workingtimes/',
+            'http://activitytracker.xyz/api/workingtimes/',
             
             config
             ).then(console.log).catch(console.log);
