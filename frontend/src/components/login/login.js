@@ -4,7 +4,7 @@ import { useState } from "react"
 import axios from "axios";
 
 
-const baseURL = 'http://activitytracker/api/';
+const baseURL = 'http://activitytracker.xyz/api/';
 
 
 const Login = () => {
