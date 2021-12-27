@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, FunctionComponent } from "react";
 
 import axios from "axios";
 
 const baseURL = "http://activitytracker/api/";
 
-const Login = () => {
+const Login: FunctionComponent = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
