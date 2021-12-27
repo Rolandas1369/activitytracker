@@ -15,10 +15,15 @@ class WorkDaySerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class WorkTimesSerializer(serializers.ModelSerializer):
+
+    order = serializers.StringRelatedField(many=False)
+    work_day = serializers.StringRelatedField(many=False)
     
     class Meta:
         model = WorkingTime
-        fields = ('__all__')
+        fields = ('worker', 'order', 'work_day')
+
+   
 
 class OrderExpenseSerializer(serializers.ModelSerializer):
 
