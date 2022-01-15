@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div>
+    <div className="bg-red-700">
       <Link to="/login">
         <h1>Login</h1>
       </Link>
