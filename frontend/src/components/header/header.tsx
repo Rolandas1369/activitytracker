@@ -1,6 +1,7 @@
+import { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header: FunctionComponent = () => {
   return (
     <div className="bg-red-700">
       <Link to="/login">

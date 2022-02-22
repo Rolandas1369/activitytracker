@@ -3,9 +3,9 @@ import Login from "./components/login/login";
 import HomePage from "./components/homepage/homepage";
 import Header from "./components/header/header";
 import OrdersList from "./components/orderslist/OrdersList";
+import { FunctionComponent } from "react";
 
-function App() {
-  console.log(process.env.NODE_ENV)
+const App: FunctionComponent = () => {
   return (
     <div>
       <Router>
@@ -24,6 +24,6 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
 export default App;

@@ -1,8 +1,7 @@
 import { useState, FunctionComponent } from "react";
 
 import axios from "axios";
-
-const baseURL = "http://activitytracker.xyz/api/";
+import { config } from "../Constants";
 
 const Login: FunctionComponent = () => {
   const [username, setUsername] = useState("");
@@ -10,7 +9,7 @@ const Login: FunctionComponent = () => {
 
   const createToken = () => {
      axios
-      .post(baseURL + "token/", { email: username, password: password })
+      .post(config.url.API_URL + "token/", { email: username, password: password })
       .then((res) => {
         const data = res.data as {access: string}
         const token  = data.access

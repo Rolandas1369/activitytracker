@@ -1,6 +1,7 @@
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, FunctionComponent } from "react";
 
 import Order from "../order/Order";
+import { config } from "../Constants";
 
 interface APIOrder {
   began_at: string | null;
@@ -12,7 +13,7 @@ interface APIOrder {
   starting_at: string | null;
   id: number;
 }
-const OrdersList = (): ReactNode | null => {
+const OrdersList: FunctionComponent = () => {
   const [ordersData, setOrdersData] = useState<APIOrder[]>();
 
   useEffect(() => {
@@ -22,7 +23,9 @@ const OrdersList = (): ReactNode | null => {
   }, []);
 
   async function requestOrders(): Promise<void> {
-    const res = await fetch("http://activitytracker.xyz/api/orders", {headers: {Authorization: `JWT ${localStorage.getItem("access_token")}`}});
+    const res = await fetch(config.url.API_URL + "orders/", {
+      headers: { Authorization: `JWT ${localStorage.getItem("access_token")}` },
+    });
     const json = (await res.json()) as APIOrder[];
     void setOrdersData(json);
   }
