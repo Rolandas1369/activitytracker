@@ -1,6 +1,6 @@
 const prod = {
   url: {
-    API_URL: "http://activytitracker.xyz/api/",
+    API_URL: "http://activitytracker.xyz/api/",
   },
 };
 const dev = {
