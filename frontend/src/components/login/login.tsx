@@ -2,19 +2,21 @@ import { useState, FunctionComponent } from "react";
 
 import axios from "axios";
 
-const baseURL = "http://activitytracker/api/";
+const baseURL = "http://activitytracker.xyz/api/";
 
 const Login: FunctionComponent = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const createToken = () => {
-    // axios
-    //   .post(baseURL + "token/", { email: username, password: password })
-    //   .then((res) => {
-    //     console.log(res.data.access);
-    //     localStorage.setItem("access_token", res.data.access);
-    //   });
+     axios
+      .post(baseURL + "token/", { email: username, password: password })
+      .then((res) => {
+        const data = res.data as {access: string}
+        const token  = data.access
+       localStorage.setItem('access_token', token)
+        console.log(res)
+      }).catch((er) => console.log(er))
   };
 
   return (

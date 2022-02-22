@@ -5,6 +5,7 @@ import Header from "./components/header/header";
 import OrdersList from "./components/orderslist/OrdersList";
 
 function App() {
+  console.log(process.env.NODE_ENV)
   return (
     <div>
       <Router>

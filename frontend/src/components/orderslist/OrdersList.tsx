@@ -22,7 +22,7 @@ const OrdersList = (): ReactNode | null => {
   }, []);
 
   async function requestOrders(): Promise<void> {
-    const res = await fetch("http://activitytracker.xyz/api/orders");
+    const res = await fetch("http://activitytracker.xyz/api/orders", {headers: {Authorization: `JWT ${localStorage.getItem("access_token")}`}});
     const json = (await res.json()) as APIOrder[];
     void setOrdersData(json);
   }
