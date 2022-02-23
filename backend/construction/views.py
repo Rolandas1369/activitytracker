@@ -4,8 +4,15 @@ from construction.serializers import OrderSerializer, WorkDaySerializer, OrderEx
 from django_filters.rest_framework import DjangoFilterBackend
 
 class OrdersList(generics.ListCreateAPIView):
-    queryset = Order.objects.all()
+
+    class Meta:
+        ordering = ('name',)
+
+    queryset = Order.objects.order_by('name')
     serializer_class = OrderSerializer
+
+    filter_backends =  [DjangoFilterBackend]
+    filterset_fields = ['completed']
 
 class OrderDetailsView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrderSerializer   
