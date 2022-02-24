@@ -18,7 +18,7 @@ const Order: React.FC<APIOrder> = (props): JSX.Element => {
 
   useEffect(() => {
     setCompleted(props.completed);
-  }, []);
+  }, [props.completed]);
 
   const setStatusToCompleted = (val, props: APIOrder) => {
     const orderId = props.id;
@@ -31,12 +31,12 @@ const Order: React.FC<APIOrder> = (props): JSX.Element => {
         {
           name: props.name,
           price: props.price,
-          completed: !props.completed
+          completed: !props.completed,
         },
         {
           headers: {
-            Authorization: `JWT ${localStorage.getItem("access_token")}`
-          }
+            Authorization: `JWT ${localStorage.getItem("access_token")}`,
+          },
         }
       )
       .then((resp) => {

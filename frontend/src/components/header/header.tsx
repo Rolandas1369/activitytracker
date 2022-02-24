@@ -13,6 +13,9 @@ const Header: FunctionComponent = () => {
       <Link to="/orders">
         <h1>Orders</h1>
       </Link>
+      <Link to="/workingtimes">
+        <h1>Working Times</h1>
+      </Link>
     </div>
   );
 };
