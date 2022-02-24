@@ -19,10 +19,11 @@ class WorkTimesSerializer(serializers.ModelSerializer):
 
     order = serializers.StringRelatedField(many=False)
     work_day = serializers.StringRelatedField(many=False)
+    worker = serializers.StringRelatedField(many=False)
     
     class Meta:
         model = WorkingTime
-        fields = ('worker', 'order', 'work_day')
+        fields = ('id', 'worker', 'order', 'work_day')
 
    
 

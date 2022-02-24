@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import axios from "axios";
 import { config } from "../Constants";
 import WorkingTime from "../workingtime/WorkingTime";
+import axiosInstance from "../axiosInstance";
 
 interface APIWorkingTimes {
   id: number;
@@ -14,17 +15,11 @@ const WorkingTimesList: FunctionComponent = () => {
   const [workingTimes, setWorkingTimes] = useState<APIWorkingTimes[]>();
 
   const getWorkingTimes = () => {
-    void axios
-      .get(config.url.API_URL + "workingtimes/", {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem("access_token")}`,
-        },
-      })
-      .then((res) => {
-        const workingtimesdata = res.data as APIWorkingTimes[];
-        console.log(workingtimesdata);
-        setWorkingTimes(workingtimesdata);
-      });
+    void axiosInstance.get("workingtimes/").then((res) => {
+      const workingtimesdata = res.data as APIWorkingTimes[];
+      console.log(workingtimesdata);
+      setWorkingTimes(workingtimesdata);
+    });
   };
 
   useEffect(() => {
