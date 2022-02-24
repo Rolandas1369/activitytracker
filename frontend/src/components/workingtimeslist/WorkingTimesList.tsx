@@ -1,6 +1,4 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import axios from "axios";
-import { config } from "../Constants";
 import WorkingTime from "../workingtime/WorkingTime";
 import axiosInstance from "../axiosInstance";
 
@@ -17,7 +15,6 @@ const WorkingTimesList: FunctionComponent = () => {
   const getWorkingTimes = () => {
     void axiosInstance.get("workingtimes/").then((res) => {
       const workingtimesdata = res.data as APIWorkingTimes[];
-      console.log(workingtimesdata);
       setWorkingTimes(workingtimesdata);
     });
   };
