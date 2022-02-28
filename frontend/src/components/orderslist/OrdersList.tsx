@@ -67,7 +67,7 @@ const OrdersList: FunctionComponent = () => {
             : null}
         </div>
         <div className="uncompleted">
-          <h2>UnCompleted</h2>
+          <h2>Unccffompleted</h2>
           {uncompletedOrdersData
             ? uncompletedOrdersData.map((order, index) => {
                 return (
