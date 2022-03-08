@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import WorkingTime from "../workingtime/WorkingTime";
 import axiosInstance from "../axiosInstance";
+import ApiFiltersNav from "./ApiFiltersNav";
 
 interface APIWorkingTimes {
   id: number;
@@ -12,20 +13,24 @@ interface APIWorkingTimes {
 const WorkingTimesList: FunctionComponent = () => {
   const [workingTimes, setWorkingTimes] = useState<APIWorkingTimes[]>();
 
-  const getWorkingTimes = () => {
-    void axiosInstance.get("workingtimes/").then((res) => {
+  const getWorkingTimes = (filter: string) => {
+    void axiosInstance.get(`workingtimes/${filter}`).then((res) => {
       const workingtimesdata = res.data as APIWorkingTimes[];
       setWorkingTimes(workingtimesdata);
     });
   };
 
   useEffect(() => {
-    getWorkingTimes();
+    getWorkingTimes("?");
   }, []);
 
   return (
     <div>
       <h1 className="flex justify-center">Working Times</h1>
+      <ApiFiltersNav
+        getW={getWorkingTimes}
+        workingTimes={workingTimes}
+      ></ApiFiltersNav>
       {workingTimes
         ? workingTimes.map((workingtime) => {
             return (

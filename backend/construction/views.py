@@ -1,6 +1,6 @@
 from rest_framework import generics
-from construction.models import Order, WorkDay, WorkingTime, OrderExpense
-from construction.serializers import OrderSerializer, WorkDaySerializer, OrderExpenseSerializer, WorkTimesSerializer
+from construction.models import Order, WorkDay, Worker, WorkingTime, OrderExpense
+from construction.serializers import OrderSerializer, WorkDaySerializer, OrderExpenseSerializer, WorkTimesSerializer, WorkersSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 
 class OrdersList(generics.ListCreateAPIView):
@@ -20,7 +20,7 @@ class OrderDetailsView(generics.RetrieveUpdateDestroyAPIView):
     
 
     def get_queryset(self):
-        print('ddd', self.kwargs)
+        
         order = Order.objects.get(pk=self.kwargs['pk'])
         return Order.objects.filter(name=order)
 
@@ -33,7 +33,7 @@ class WorkingTimesList(generics.ListAPIView):
     serializer_class = WorkTimesSerializer
 
     filter_backends =  [DjangoFilterBackend]
-    filterset_fields = ['order', 'worker', 'worker__name']
+    filterset_fields = ['order', 'worker', 'work_day']
 
 
 
@@ -47,3 +47,10 @@ class WorkingTimesDetailsView(generics.RetrieveUpdateDestroyAPIView):
 class ExpensesList(generics.ListCreateAPIView):
     queryset = OrderExpense.objects.all()
     serializer_class = OrderExpenseSerializer
+
+class WorkersList(generics.ListCreateAPIView):
+    queryset = Worker.objects.all()
+    serializer_class = WorkersSerializer
+
+    filter_backends =  [DjangoFilterBackend]
+    filterset_fields = ['name']
