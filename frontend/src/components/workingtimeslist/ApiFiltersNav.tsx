@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../axiosInstance";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useActions } from "../../hooks/useActions";
 
 interface APIWorkers {
   id: number;
@@ -22,25 +24,19 @@ interface APIWorkDays {
   date_formated: string;
 }
 
-interface APIOrders {
-  id: number;
-  name: string;
-  starting_at: string | null;
-  began_at: string | null;
-  ended_at: string | null;
-  completed: boolean;
-  price: number;
-}
-
 type ApiFilterNavProps = {
   getW: (filter: string) => void;
   workingTimes: APIWorkingTimes[];
 };
 
-const ApiFiltersNav = ({ getW, workingTimes }: ApiFilterNavProps) => {
+const ApiFiltersNav = ({ getW }: ApiFilterNavProps) => {
   const [workers, setWorkers] = useState<APIWorkers[]>();
-  const [orders, setOrders] = useState<APIOrders[]>();
+
   const [days, setWorkDays] = useState<APIWorkDays[]>();
+  const { getWorkersList } = useActions();
+  const { getOrdersList } = useActions();
+  const { data, error, loading } = useTypedSelector((state) => state.workers);
+  const { orders } = useTypedSelector((state) => state.orders);
 
   useEffect(() => {
     void axiosInstance.get("workers/").then((data) => {
@@ -48,10 +44,8 @@ const ApiFiltersNav = ({ getW, workingTimes }: ApiFilterNavProps) => {
       setWorkers(workers_data);
     });
 
-    void axiosInstance.get("orders/").then((data) => {
-      const orders_data = data.data as APIOrders[];
-      setOrders(orders_data);
-    });
+    getWorkersList();
+    getOrdersList();
 
     void axiosInstance.get("workdays/").then((data) => {
       const work_days_data = data.data as APIWorkDays[];

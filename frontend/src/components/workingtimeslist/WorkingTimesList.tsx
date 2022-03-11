@@ -15,6 +15,7 @@ interface APIWorkingTimes {
 const WorkingTimesList: FunctionComponent = () => {
   const [workingTimes, setWorkingTimes] = useState<APIWorkingTimes[]>();
   const { searchRepositories } = useActions();
+
   const { data, error, loading } = useTypedSelector(
     (state) => state.repositories
   );
