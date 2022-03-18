@@ -2,6 +2,8 @@ from rest_framework import generics
 from construction.models import Order, WorkDay, Worker, WorkingTime, OrderExpense
 from construction.serializers import OrderSerializer, WorkDaySerializer, OrderExpenseSerializer, WorkTimesSerializer, WorkersSerializer
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.response import Response
+
 
 class OrdersList(generics.ListCreateAPIView):
 
@@ -13,6 +15,13 @@ class OrdersList(generics.ListCreateAPIView):
 
     filter_backends =  [DjangoFilterBackend]
     filterset_fields = ['completed']
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, many=isinstance(request.data,list))
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, headers=headers)
 
 class OrderDetailsView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrderSerializer   

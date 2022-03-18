@@ -1,6 +1,7 @@
 import { config } from "../Constants";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import axiosInstance from "../axiosInstance";
 
 interface APIOrder {
   began_at: string | null;
@@ -11,6 +12,7 @@ interface APIOrder {
   price: number;
   starting_at: string | null;
   id: number;
+  requestOrders: () => void;
 }
 
 const Order: React.FC<APIOrder> = (props): JSX.Element => {
@@ -19,6 +21,15 @@ const Order: React.FC<APIOrder> = (props): JSX.Element => {
   useEffect(() => {
     setCompleted(props.completed);
   }, [props.completed]);
+
+  const deleteOrder = (id) => {
+    void axiosInstance.delete(`orders/${+id}`).then((res) => {
+      // no multiple instant deletes becouse state is set to []
+      // loding indicator needed
+      console.log("deleted", res);
+      props.requestOrders();
+    });
+  };
 
   const setStatusToCompleted = (val, props: APIOrder) => {
     const orderId = props.id;
@@ -31,12 +42,12 @@ const Order: React.FC<APIOrder> = (props): JSX.Element => {
         {
           name: props.name,
           price: props.price,
-          completed: !props.completed,
+          completed: !props.completed
         },
         {
           headers: {
-            Authorization: `JWT ${localStorage.getItem("access_token")}`,
-          },
+            Authorization: `JWT ${localStorage.getItem("access_token")}`
+          }
         }
       )
       .then((resp) => {
@@ -62,6 +73,9 @@ const Order: React.FC<APIOrder> = (props): JSX.Element => {
       <p>
         <i className="text-blue-600">Kaina:</i> {props.price}
       </p>
+      <button onClick={() => deleteOrder(props.id)} className="text-red-600">
+        Delete
+      </button>
     </div>
   );
 };

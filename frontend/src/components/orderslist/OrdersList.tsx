@@ -1,4 +1,5 @@
 import { useState, useEffect, FunctionComponent } from "react";
+import AddOrderForm from "./AddOrderForm";
 
 import Order from "../order/Order";
 import { config } from "../Constants";
@@ -25,6 +26,8 @@ const OrdersList: FunctionComponent = () => {
   }, []);
 
   async function requestOrders(): Promise<void> {
+    setCompletedOrdersData([]);
+    setUncompletedOrdersData([]);
     const res1 = await fetch(config.url.API_URL + "orders/?completed=true", {
       headers: { Authorization: `JWT ${localStorage.getItem("access_token")}` }
     });
@@ -61,6 +64,7 @@ const OrdersList: FunctionComponent = () => {
                     price={order.price}
                     starting_at={order.starting_at}
                     id={order.id}
+                    requestOrders={requestOrders}
                   ></Order>
                 );
               })
@@ -81,6 +85,7 @@ const OrdersList: FunctionComponent = () => {
                     price={order.price}
                     starting_at={order.starting_at}
                     id={order.id}
+                    requestOrders={requestOrders}
                   ></Order>
                 );
               })
@@ -95,6 +100,7 @@ const OrdersList: FunctionComponent = () => {
       >
         <input className="cursor-pointer" type="submit" value="Submit" />
       </form>
+      <AddOrderForm></AddOrderForm>
     </div>
   );
 };

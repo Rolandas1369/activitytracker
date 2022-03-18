@@ -4,12 +4,12 @@ from construction.models import Order, WorkDay, Worker, WorkingTime, OrderExpens
 
 class OrderSerializer(serializers.ModelSerializer):
 
-    name = serializers.StringRelatedField(many=False)
+    # name = serializers.StringRelatedField(many=False)
     
     class Meta:
         model = Order
         
-        fields = ('__all__')
+        fields = ('id', 'name', 'location', 'starting_at', 'began_at', 'ended_at', 'completed', 'price')
 
 class WorkDaySerializer(serializers.ModelSerializer):
 
