@@ -32,9 +32,8 @@ interface OrdersAPI {
   }[];
 }
 
-export const searchRepositories = (term: string) => {
-  console.log(term);
-  return async (dispatch: Dispatch<RepositoriesAction>) => {
+export const searchRepositories = () => {
+  return async (dispatch: Dispatch<RepositoriesAction>): Promise<void> => {
     dispatch({ type: ActionType.SEARCH_REPOSITORIES });
 
     try {
@@ -43,7 +42,7 @@ export const searchRepositories = (term: string) => {
         type: ActionType.SEARCH_REPOSITORIES_SUCCESS,
         payload: data
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       dispatch({
         type: ActionType.SEARCH_REPOSITORIES_ERROR,
         payload: String(err)
@@ -53,7 +52,7 @@ export const searchRepositories = (term: string) => {
 };
 
 export const getWorkersList = () => {
-  return async (dispatch: Dispatch<WorkersAction>) => {
+  return async (dispatch: Dispatch<WorkersAction>): Promise<void> => {
     dispatch({ type: ActionType.SEARCH_WORKERS });
 
     try {
@@ -63,7 +62,7 @@ export const getWorkersList = () => {
         type: ActionType.SEARCH_WORKERS_SUCCESS,
         payload: data
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       dispatch({
         type: ActionType.SEARCH_WORKERS_ERROR,
         payload: String(err)
@@ -73,7 +72,7 @@ export const getWorkersList = () => {
 };
 
 export const getOrdersList = () => {
-  return async (dispatch: Dispatch<OrdersActions>) => {
+  return async (dispatch: Dispatch<OrdersActions>): Promise<void> => {
     dispatch({ type: ActionType.SEARCH_ORDERS });
 
     try {
@@ -83,7 +82,7 @@ export const getOrdersList = () => {
         type: ActionType.SEARCH_ORDERS_SUCCESS,
         payload: data
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       dispatch({
         type: ActionType.SEARCH_ORDERS_ERROR,
         payload: String(err)

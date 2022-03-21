@@ -1,83 +1,29 @@
-import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
-
-import axiosInstance from "../axiosInstance";
+// @ts-ignore
+import { FunctionComponent, useEffect } from "react";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useActions } from "../../hooks/useActions";
+import CreateForm from "../createform/CreateForm";
 
 const AddOrderForm: FunctionComponent = () => {
-  const [order, setOrder] = useState({});
-  const [name, setName] = useState<string | null>("");
-  const [location, setLocation] = useState<string | null>("");
-  const [price, setPrice] = useState<string | null>("");
+  const { orders } = useTypedSelector((state) => state.orders);
+  const { getOrdersList } = useActions();
 
-  const setValue = (
-    e: ChangeEvent<HTMLInputElement>,
-    changeF: React.Dispatch<React.SetStateAction<string>>
-  ) => {
-    changeF(e.target.value);
-  };
-
-  const addOrder = (e: FormEvent) => {
-    e.preventDefault();
-
-    const dataJson = [
-      {
-        name: name,
-        location: location,
-        starting_at: null,
-        began_at: null,
-        completed: false,
-        price: price
-      },
-      {
-        name: name + "test",
-        location: location,
-        starting_at: null,
-        began_at: null,
-        completed: false,
-        price: price
-      }
-    ];
-
-    console.log(dataJson);
-    void axiosInstance.post("orders/", dataJson).then((res) => {
-      console.log(res);
-    });
-  };
+  useEffect(() => {
+    getOrdersList();
+  }, []);
 
   return (
-    <div>
-      <form
-        onSubmit={addOrder}
-        className="border-solid border-2 border-indigo-600"
-      >
-        <label>
-          Name:
-          <input
-            onChange={(e) => setValue(e, setName)}
-            value={name}
-            type="text"
-            className="border-solid border-2 border-red-600"
-          />
-        </label>
-        <label>
-          Location:
-          <input
-            onChange={(e) => setValue(e, setLocation)}
-            value={location}
-            type="text"
-            className="border-solid border-2 border-red-600"
-          />
-        </label>
-        <label>
-          Price:
-          <input
-            onChange={(e) => setValue(e, setPrice)}
-            value={price}
-            type="number"
-            className="border-solid border-2 border-red-600"
-          />
-        </label>
-        <input type="submit" />
-      </form>
+    <div className="flex">
+      <div>
+        <h2>Current orders</h2>
+        {orders.map((order) => {
+          return <p key={order.id}>{order.name}</p>;
+        })}
+      </div>
+      <div>
+        <h2>Add order</h2>
+        <CreateForm APIEndpoint="orders/"></CreateForm>
+      </div>
     </div>
   );
 };

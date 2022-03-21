@@ -29,7 +29,7 @@ const WorkingTimesList: FunctionComponent = () => {
 
   useEffect(() => {
     getWorkingTimes("?");
-    searchRepositories("react");
+    searchRepositories();
   }, []);
 
   return (

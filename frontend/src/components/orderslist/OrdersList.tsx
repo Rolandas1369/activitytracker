@@ -1,5 +1,4 @@
 import { useState, useEffect, FunctionComponent } from "react";
-import AddOrderForm from "./AddOrderForm";
 
 import Order from "../order/Order";
 import { config } from "../Constants";
@@ -100,7 +99,6 @@ const OrdersList: FunctionComponent = () => {
       >
         <input className="cursor-pointer" type="submit" value="Submit" />
       </form>
-      <AddOrderForm></AddOrderForm>
     </div>
   );
 };

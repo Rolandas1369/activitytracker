@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import axiosInstance from "../axiosInstance";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useActions } from "../../hooks/useActions";
@@ -29,13 +29,12 @@ type ApiFilterNavProps = {
   workingTimes: APIWorkingTimes[];
 };
 
-const ApiFiltersNav = ({ getW }: ApiFilterNavProps) => {
+const ApiFiltersNav: FunctionComponent<ApiFilterNavProps> = ({ getW }) => {
   const [workers, setWorkers] = useState<APIWorkers[]>();
 
   const [days, setWorkDays] = useState<APIWorkDays[]>();
   const { getWorkersList } = useActions();
   const { getOrdersList } = useActions();
-  const { data, error, loading } = useTypedSelector((state) => state.workers);
   const { orders } = useTypedSelector((state) => state.orders);
 
   useEffect(() => {
