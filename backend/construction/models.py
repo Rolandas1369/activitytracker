@@ -88,6 +88,9 @@ class Worker(models.Model):
     hourly_salary = models.FloatField()
     taxes_amount_per_hour = models.FloatField(default=8.8)    
 
+    class Meta:
+        ordering = ('-id',)
+    
     def __str__(self) -> str:
         return self.name
 

@@ -11,6 +11,7 @@ urlpatterns = [
     path('workingtimes/<int:pk>', views.WorkingTimesDetailsView.as_view()),
     path('orders/', views.OrdersList.as_view()),
     path('orders/<int:pk>', views.OrderDetailsView.as_view()),
-    path('workers/', views.WorkersList.as_view())
+    path('workers/', views.WorkersList.as_view()),
+    path('workers/<int:pk>', views.WorkerDetailsView.as_view())
    
 ]

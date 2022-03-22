@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../axiosInstance";
+import { useActions } from "../../hooks/useActions";
 
 interface APIOptions {
   actions: {
@@ -10,9 +11,13 @@ interface APIOptions {
 }
 interface FormEndpoint {
   APIEndpoint: string;
+  editable?: boolean;
+  data?: any[];
 }
 
 const CreateForm: React.FC<FormEndpoint> = (props) => {
+  const { getWorkersList } = useActions();
+
   const [formFields, setFormFields] = useState([]);
   const [formData, setFormData] = useState({});
   const formDictionary = {};
@@ -166,6 +171,9 @@ const CreateForm: React.FC<FormEndpoint> = (props) => {
   const onSubmitForm = (e: React.SyntheticEvent) => {
     e.preventDefault();
     void axiosInstance.post(props.APIEndpoint, formData).then((res) => {
+      if (props.APIEndpoint === "workers/") {
+        getWorkersList();
+      }
       console.log("Submit completed", res);
     });
   };

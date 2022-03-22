@@ -58,11 +58,17 @@ class ExpensesList(generics.ListCreateAPIView):
     serializer_class = OrderExpenseSerializer
 
 class WorkersList(generics.ListCreateAPIView):
+
+    class Meta:
+        ordering = ('id',)
+
     queryset = Worker.objects.all()
     serializer_class = WorkersSerializer
 
     filter_backends =  [DjangoFilterBackend]
     filterset_fields = ['name']
+
+
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, many=isinstance(request.data,list))
@@ -70,3 +76,16 @@ class WorkersList(generics.ListCreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, headers=headers)
+
+class WorkerDetailsView(generics.RetrieveUpdateDestroyAPIView):
+    
+
+    
+    serializer_class = WorkersSerializer   
+
+    
+
+    def get_queryset(self):
+        
+        worker = Worker.objects.get(pk=self.kwargs['pk'])
+        return Worker.objects.filter(name=worker)
