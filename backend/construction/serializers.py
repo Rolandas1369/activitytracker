@@ -39,7 +39,7 @@ class OrderExpenseSerializer(serializers.ModelSerializer):
 
 class WorkersSerializer(serializers.ModelSerializer):
 
-    name = serializers.StringRelatedField(many=False)
+    # name = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = Worker

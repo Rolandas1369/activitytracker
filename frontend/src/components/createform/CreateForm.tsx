@@ -13,34 +13,35 @@ interface FormEndpoint {
 }
 
 const CreateForm: React.FC<FormEndpoint> = (props) => {
-  const [cop, setCop] = useState([]);
+  const [formFields, setFormFields] = useState([]);
   const [formData, setFormData] = useState({});
+  const formDictionary = {};
 
-  
-  useEffect(() => {
-    const createFormValues = (field_value: string, cc: string, label: string) => {
-      // replave Name some to name_some
-      const formKey = label.toLowerCase().replaceAll(" ", "_");
-      formData[formKey] = field_value;
-      console.log(formData);
-    };
-    
-    
-    
-    void axiosInstance.options(props.APIEndpoint).then(({ data }) => {
-      const pp = data as APIOptions;
-      const optionKeys = Object.keys(pp.actions.POST);
-      const options = pp.actions.POST;
-      const rep = [];
-      optionKeys.map((key) => {
-        rep.push(options[key]);
-      });
-      const ok = rep.map((zz: { type: string; label: string }) => {
+  const createFormValues = (field_value: string, cc: string, label: string) => {
+    // replave Name some to name_some
+    const formKey = label.toLowerCase().replaceAll(" ", "_");
+    formDictionary[formKey] = field_value;
+    setFormData(formDictionary);
+  };
+
+  const createFormFields = (combinedValues: any[]) => {
+    console.log(combinedValues);
+    const formFields = combinedValues.map(
+      (fieldData: {
+        type: string;
+        label: string;
+        required: boolean;
+        read_only: boolean;
+      }) => {
         const mapper = {
           integer: (
             <label key={Math.random()}>
-              {zz.label}:
+              <span className={`${fieldData.required ? "font-black" : null}`}>
+                {fieldData.label}:
+              </span>
               <input
+                readOnly={fieldData.read_only}
+                required={fieldData.required}
                 key={Math.random()}
                 className="border-2 border-rose-600 m-2"
                 type="number"
@@ -49,11 +50,18 @@ const CreateForm: React.FC<FormEndpoint> = (props) => {
           ),
           string: (
             <label key={Math.random()}>
-              {zz.label}:
+              <span className={`${fieldData.required ? "font-black" : null}`}>
+                {fieldData.label}:
+              </span>
               <input
                 onChange={(e) =>
-                  createFormValues(e.target.value, zz.type, zz.label)
+                  createFormValues(
+                    e.target.value,
+                    fieldData.type,
+                    fieldData.label
+                  )
                 }
+                required={fieldData.required}
                 key={Math.random()}
                 className="border-2 border-rose-600 m-2"
                 type="text"
@@ -62,11 +70,18 @@ const CreateForm: React.FC<FormEndpoint> = (props) => {
           ),
           date: (
             <label key={Math.random()}>
-              {zz.label}:
+              <span className={`${fieldData.required ? "font-black" : null}`}>
+                {fieldData.label}:
+              </span>
               <input
                 onChange={(e) =>
-                  createFormValues(e.target.value, zz.type, zz.label)
+                  createFormValues(
+                    e.target.value,
+                    fieldData.type,
+                    fieldData.label
+                  )
                 }
+                required={fieldData.required}
                 key={Math.random()}
                 className="border-2 border-rose-600 m-2"
                 type="date"
@@ -75,17 +90,26 @@ const CreateForm: React.FC<FormEndpoint> = (props) => {
           ),
           boolean: (
             <label key={Math.random()}>
-              {zz.label}:
+              <span className={`${fieldData.required ? "font-black" : null}`}>
+                {fieldData.label}:
+              </span>
               <input className=" m-2" key={Math.random()} type="checkbox" />
             </label>
           ),
           float: (
             <label key={Math.random()}>
-              {zz.label}:
+              <span className={`${fieldData.required ? "font-black" : null}`}>
+                {fieldData.label}:
+              </span>
               <input
                 onChange={(e) =>
-                  createFormValues(e.target.value, zz.type, zz.label)
+                  createFormValues(
+                    e.target.value,
+                    fieldData.type,
+                    fieldData.label
+                  )
                 }
+                required={fieldData.required}
                 key={Math.random()}
                 className="border-2 border-rose-600 m-2"
                 type="number"
@@ -94,11 +118,18 @@ const CreateForm: React.FC<FormEndpoint> = (props) => {
           ),
           field: (
             <label key={Math.random()}>
-              {zz.label}:
+              <span className={`${fieldData.required ? "font-black" : null}`}>
+                {fieldData.label}:
+              </span>
               <input
                 onChange={(e) =>
-                  createFormValues(e.target.value, zz.type, zz.label)
+                  createFormValues(
+                    e.target.value,
+                    fieldData.type,
+                    fieldData.label
+                  )
                 }
+                required={fieldData.required}
                 key={Math.random()}
                 className="border-2 border-rose-600 m-2"
                 type="text"
@@ -106,24 +137,43 @@ const CreateForm: React.FC<FormEndpoint> = (props) => {
             </label>
           )
         };
-        return mapper[zz.type] as { ty: string };
+        console.log(mapper[fieldData.type]);
+        return mapper[fieldData.type] as {
+          $$typeof: React.ReactElement;
+          type: string;
+          key: string;
+          ref: string;
+          props: { children: [] };
+        };
+      }
+    );
+    setFormFields(formFields);
+  };
+
+  useEffect(() => {
+    void axiosInstance.options(props.APIEndpoint).then(({ data }) => {
+      const optionsData = data as APIOptions;
+      const optionsKeys = Object.keys(optionsData.actions.POST);
+      const optionsContent = optionsData.actions.POST;
+      const combinedValues = [];
+      optionsKeys.map((key) => {
+        combinedValues.push(optionsContent[key]);
       });
-      setCop(ok);
+      createFormFields(combinedValues);
     });
   }, []);
 
   const onSubmitForm = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(formData);
-    void axiosInstance.post(props.APIEndpoint, [formData]).then((res) => {
-      console.log(res);
+    void axiosInstance.post(props.APIEndpoint, formData).then((res) => {
+      console.log("Submit completed", res);
     });
   };
 
   return (
     <div>
       <form onSubmit={onSubmitForm} className="flex flex-col">
-        {cop} <input type="submit" />
+        {formFields} <input type="submit" />
       </form>
     </div>
   );

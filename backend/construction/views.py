@@ -37,7 +37,7 @@ class WorkDaysList(generics.ListCreateAPIView):
     queryset = WorkDay.objects.all()
     serializer_class = WorkDaySerializer
 
-class WorkingTimesList(generics.ListAPIView):
+class WorkingTimesList(generics.ListCreateAPIView):
     queryset = WorkingTime.objects.all()
     serializer_class = WorkTimesSerializer
 
@@ -63,3 +63,10 @@ class WorkersList(generics.ListCreateAPIView):
 
     filter_backends =  [DjangoFilterBackend]
     filterset_fields = ['name']
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, many=isinstance(request.data,list))
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, headers=headers)
