@@ -10,6 +10,7 @@ interface APIWorkers {
 }
 
 const Worker: FunctionComponent<APIWorkers> = (props) => {
+  const [expand, setExpand] = useState(false);
   const [submitForm, setSubmitForm] = useState({
     id: props.id,
     name: props.name,
@@ -22,6 +23,11 @@ const Worker: FunctionComponent<APIWorkers> = (props) => {
     void axiosInstance.put(`workers/${id}`, submitForm).then((res) => {
       props.getWorkersList();
     });
+  };
+
+  const expandDetails = () => {
+    console.log(expand);
+    setExpand(!expand);
   };
 
   const deleteWorker = (id: number) => {
@@ -42,15 +48,17 @@ const Worker: FunctionComponent<APIWorkers> = (props) => {
   return (
     <div className="border-2 m-2">
       <form className="flex flex-col">
-        <label>
-          ID:
-          <input
-            className="border-2"
-            readOnly
-            type="number"
-            value={submitForm.id}
-          />
-        </label>
+        {expand ? (
+          <label>
+            ID:
+            <input
+              className="border-2"
+              readOnly
+              type="number"
+              value={submitForm.id}
+            />
+          </label>
+        ) : null}
         <label>
           Name:
           <input
@@ -60,37 +68,47 @@ const Worker: FunctionComponent<APIWorkers> = (props) => {
             value={submitForm.name}
           />
         </label>
-        <label>
-          Surname:
-          <input
-            type="text"
-            className="border-2"
-            value={submitForm.surname}
-            onChange={(e) => editValue(e, props.id, "surname")}
-          />
-        </label>
-        <label>
-          Hourly Salary:
-          <input
-            type="number"
-            onChange={(e) => editValue(e, props.id, "hourly_salary")}
-            className="border-2"
-            value={submitForm.hourly_salary}
-          />
-        </label>
-        <label>
-          Taxes amount:
-          <input
-            type="number"
-            className="border-2"
-            onChange={(e) => editValue(e, props.id, "taxes_amount_per_hour")}
-            value={submitForm.taxes_amount_per_hour}
-          />
-        </label>
+
+        {expand ? (
+          <>
+            <label>
+              Surname:
+              <input
+                type="text"
+                className="border-2"
+                value={submitForm.surname}
+                onChange={(e) => editValue(e, props.id, "surname")}
+              />
+            </label>
+
+            <label>
+              Hourly Salary:
+              <input
+                type="number"
+                onChange={(e) => editValue(e, props.id, "hourly_salary")}
+                className="border-2"
+                value={submitForm.hourly_salary}
+              />
+            </label>
+
+            <label>
+              Taxes amount:
+              <input
+                type="number"
+                className="border-2"
+                onChange={(e) =>
+                  editValue(e, props.id, "taxes_amount_per_hour")
+                }
+                value={submitForm.taxes_amount_per_hour}
+              />
+            </label>
+          </>
+        ) : null}
       </form>
       <div className="flex justify-between">
         <button onClick={() => changeWorkerData(props.id)}>Update</button>
         <button onClick={() => deleteWorker(props.id)}>Delete</button>
+        <button onClick={expandDetails}>ExpandDetails</button>
       </div>
     </div>
   );
