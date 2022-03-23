@@ -8,4 +8,3 @@ __pycache
 __pycache__
 .vscode/
 .env
-migrations/
