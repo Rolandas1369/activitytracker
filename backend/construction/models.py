@@ -96,21 +96,22 @@ class Worker(models.Model):
 
 
 class WorkingTime(models.Model):
-    worker = models.ForeignKey('Worker', on_delete=CASCADE)
+    worker = models.ForeignKey('Worker', related_name='workers', on_delete=CASCADE)
     order = models.ForeignKey('Order', on_delete=CASCADE)
     hours = models.FloatField()
     work_day = models.ForeignKey('WorkDay', on_delete=CASCADE, null=True)
     bonus = models.FloatField(default=0)
-    calculated_pay = models.FloatField(default=None, editable=False)
+    calculated_pay = models.FloatField(default=None,null=True, blank=True,  editable=False)
     worked_on = models.CharField(max_length=1000, default=None, null=True, blank=True)
+    workers = models.ManyToManyField(Worker)
 
-    @property
-    def cp(self):
-        return self.worker.hourly_salary * self.hours + self.worker.taxes_amount_per_hour * self.hours + self.bonus
+    # @property
+    # def cp(self):
+    #     return self.worker.hourly_salary * self.hours + self.worker.taxes_amount_per_hour * self.hours + self.bonus
 
-    def save(self, *args, **kwargs):   
-        self.calculated_pay = self.cp
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):   
+    #     self.calculated_pay = self.cp
+    #     super().save(*args, **kwargs)
         
     def __str__(self) -> str:
         return self.order.name    

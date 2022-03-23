@@ -16,18 +16,28 @@ class WorkDaySerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkDay
         fields = ('__all__')
+
+class WorkerField(serializers.StringRelatedField):
+
+    def to_internal_value(self, value):
+        sector_class = Worker.objects.filter(name=value)
+        if sector_class and (len(sector_class)) == 1:
+            return sector_class.get().id
+        else:
+            raise serializers.ValidationError("Sector with name: %s not found" % value)
         
 
 class WorkTimesSerializer(serializers.ModelSerializer):
 
-    order = serializers.StringRelatedField(many=False)
-    work_day = serializers.StringRelatedField(many=False)
-    worker = serializers.StringRelatedField(many=False)
-    workesr = serializers.StringRelatedField(many=False)
+    # order = serializers.StringRelatedField(many=False)
+    # work_day = serializers.StringRelatedField(many=False)
+    # worker = serializers.StringRelatedField(many=True)
+    workers = WorkerField(many=True)
     
     class Meta:
         model = WorkingTime
-        fields = ('id', 'worker', 'order', 'work_day', 'workesr')
+        fields = ('id', 'worker', 'order', 'work_day', 'hours', 'workers')
+        # depth = 1
 
    
 
