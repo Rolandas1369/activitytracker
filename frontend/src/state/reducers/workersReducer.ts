@@ -1,16 +1,11 @@
 import { ActionType } from "../action-types";
 import { WorkersAction } from "../actions/searchWorkersActions";
+import { WorkersAPI } from "../../interfaces/interfaces";
 
 interface WorkersState {
   loading: boolean;
   error: string | null;
-  data: {
-    id: number;
-    name: string;
-    surname: string;
-    hourly_salary: number;
-    taxes_amount_per_hour: number;
-  }[];
+  data: WorkersAPI[];
 }
 
 const initialState = {

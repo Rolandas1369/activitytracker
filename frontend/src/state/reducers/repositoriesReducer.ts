@@ -1,10 +1,11 @@
 import { ActionType } from "../action-types";
 import { RepositoriesAction } from "../actions/searchRepositoriesActions";
+import { WorkingTimeAPI } from "../../interfaces/interfaces";
 
 interface RepositoriesState {
   loading: boolean;
   error: string | null;
-  data: { id: number; worker: string; order: string; work_day: string }[];
+  data: WorkingTimeAPI["data"];
 }
 
 const initialState = {

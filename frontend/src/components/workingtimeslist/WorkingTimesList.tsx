@@ -4,16 +4,10 @@ import axiosInstance from "../axiosInstance";
 import ApiFiltersNav from "./ApiFiltersNav";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useActions } from "../../hooks/useActions";
-
-interface APIWorkingTimes {
-  id: number;
-  worker: string;
-  order: string;
-  work_day: string;
-}
+import { WorkingTimeAPI } from "../../interfaces/interfaces";
 
 const WorkingTimesList: FunctionComponent = () => {
-  const [workingTimes, setWorkingTimes] = useState<APIWorkingTimes[]>();
+  const [workingTimes, setWorkingTimes] = useState<WorkingTimeAPI>();
   const { searchRepositories } = useActions();
 
   const { data, error, loading } = useTypedSelector(
@@ -22,7 +16,7 @@ const WorkingTimesList: FunctionComponent = () => {
 
   const getWorkingTimes = (filter: string) => {
     void axiosInstance.get(`workingtimes/${filter}`).then((res) => {
-      const workingtimesdata = res.data as APIWorkingTimes[];
+      const workingtimesdata = res.data as WorkingTimeAPI;
       setWorkingTimes(workingtimesdata);
     });
   };
@@ -35,12 +29,13 @@ const WorkingTimesList: FunctionComponent = () => {
   return (
     <div>
       <h1 className="flex justify-center">Working Times</h1>
-      <ApiFiltersNav
+      {/* <ApiFiltersNav
         getW={getWorkingTimes}
         workingTimes={workingTimes}
-      ></ApiFiltersNav>
-      {/* {workingTimes
-        ? workingTimes.map((workingtime) => {
+      ></ApiFiltersNav> */}
+      {data
+        ? data.map((workingtime) => {
+            console.log(workingtime);
             return (
               <WorkingTime
                 key={workingtime.id}
@@ -51,22 +46,26 @@ const WorkingTimesList: FunctionComponent = () => {
               />
             );
           })
-        : null} */}
-      {error && <h3>{error}</h3>}
+        : null}
+      {/* {error && <h3>{error}</h3>}
       {loading && <h3>...loading</h3>}
       {!error &&
         !loading &&
         data.map((entry) => {
+          {
+            console.log(entry);
+          }
           return (
-            <WorkingTime
-              key={entry.id}
-              id={entry.id}
-              worker={entry.worker}
-              order={entry.order}
-              work_day={entry.work_day}
-            ></WorkingTime>
+            <p key={Math.random()}>s</p>
+            //   <WorkingTime
+            //     key={entry.id}
+            //     id={entry.id}
+            //     worker={entry.worker}
+            //     order={entry.order}
+            //     work_day={entry.work_day}
+            //   ></WorkingTime>
           );
-        })}
+        })} */}
     </div>
   );
 };

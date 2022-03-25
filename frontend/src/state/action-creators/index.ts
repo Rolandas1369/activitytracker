@@ -4,10 +4,7 @@ import { WorkersAction } from "../actions/searchWorkersActions";
 import { OrdersActions } from "../actions";
 import { RepositoriesAction } from "../actions/searchRepositoriesActions";
 import axiosInstance from "../../components/axiosInstance";
-
-interface WorkingTimeAPI {
-  data: { id: number; worker: string; order: string; work_day: string }[];
-}
+import { WorkingTimeAPI } from "../../interfaces/interfaces";
 
 interface WorkersAPI {
   data: {

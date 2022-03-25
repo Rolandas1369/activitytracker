@@ -32,14 +32,18 @@ class WorkTimesSerializer(serializers.ModelSerializer):
     # order = serializers.StringRelatedField(many=False)
     # work_day = serializers.StringRelatedField(many=False)
     # worker = serializers.StringRelatedField(many=True)
-    workers = WorkerField(many=True)
+    # workers = WorkerField(many=True)
     
     class Meta:
         model = WorkingTime
-        fields = ('id', 'worker', 'order', 'work_day', 'hours', 'workers')
-        # depth = 1
+        fields = ('id', 'worker', 'order', 'work_day', 'hours')
+        depth = 1
 
-   
+class WorkTimesPostSerializer(serializers.ModelSerializer):
+
+        class Meta:
+            model = WorkingTime
+            fields = ('id', 'worker', 'order', 'work_day', 'hours')
 
 class OrderExpenseSerializer(serializers.ModelSerializer):
 
