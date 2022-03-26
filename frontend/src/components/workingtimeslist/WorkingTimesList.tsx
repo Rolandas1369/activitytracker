@@ -47,25 +47,6 @@ const WorkingTimesList: FunctionComponent = () => {
             );
           })
         : null}
-      {/* {error && <h3>{error}</h3>}
-      {loading && <h3>...loading</h3>}
-      {!error &&
-        !loading &&
-        data.map((entry) => {
-          {
-            console.log(entry);
-          }
-          return (
-            <p key={Math.random()}>s</p>
-            //   <WorkingTime
-            //     key={entry.id}
-            //     id={entry.id}
-            //     worker={entry.worker}
-            //     order={entry.order}
-            //     work_day={entry.work_day}
-            //   ></WorkingTime>
-          );
-        })} */}
     </div>
   );
 };

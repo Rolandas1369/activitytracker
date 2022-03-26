@@ -140,7 +140,7 @@ const CreateForm: React.FC<FormEndpoint> = (props) => {
                 type="text"
               ></input>
             </label>
-          )
+          ),
         };
         console.log(mapper[fieldData.type]);
         return mapper[fieldData.type] as {
@@ -170,11 +170,12 @@ const CreateForm: React.FC<FormEndpoint> = (props) => {
 
   const onSubmitForm = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    console.log(formData);
     void axiosInstance.post(props.APIEndpoint, formData).then((res) => {
       if (props.APIEndpoint === "workers/") {
         getWorkersList();
       }
-      console.log("Submit completed", res);
+      // console.log("Submit completed", res);
     });
   };
 
