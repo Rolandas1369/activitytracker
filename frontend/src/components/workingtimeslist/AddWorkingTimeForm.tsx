@@ -1,5 +1,11 @@
 // @ts-ignore
-import { FunctionComponent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  FunctionComponent,
+  useEffect,
+  useState
+} from "react";
 import CreateForm from "../createform/CreateForm";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useActions } from "../../hooks/useActions";
@@ -12,9 +18,21 @@ const AddWorkingTimeForm: FunctionComponent = () => {
 
   const [orderField, setOrderField] = useState("");
   const [workersField, setWorkersField] = useState("");
-  const [orderForm, setOrderForm] = useState({
-    data: { order: null, worker: null, work_day: null, hours: null },
+  const [dataValues, setDataValues] = useState<{
+    orderID: number;
+    orderName: string;
+    workers: [{ workerID: number | null; worker: string; hours: number }];
+  }>({
+    orderID: 0,
+    orderName: "",
+    workers: [{ workerID: null, worker: "", hours: 0 }]
   });
+  const [orderForm, setOrderForm] = useState({
+    data: { order: null, worker: null, work_day: null, hours: null }
+  });
+  const [formData, setFormData] = useState<
+    { orderID: number; workerID: number; hours: number }[]
+  >([]);
 
   useEffect(() => {
     getOrdersList();
@@ -24,25 +42,72 @@ const AddWorkingTimeForm: FunctionComponent = () => {
   }, []);
 
   const addOrderToField = (orderID, orderName) => {
+    const tempValues = dataValues;
+    tempValues["orderID"] = orderID;
+    tempValues["orderName"] = orderName;
+    setDataValues(tempValues);
     setOrderField(orderName);
-    orderForm.data.order = orderID;
   };
 
   const addWorkersField = (workerID, worker: string) => {
-    const workerls = workersField + " " + worker;
-    setWorkersField(workerls);
+    const tempDataValues = dataValues;
+    console.log(tempDataValues);
+    const tempWorkersField: { workerID: number; worker: string }[] = [];
+    tempWorkersField.push({ workerID: workerID, worker: worker });
+
+    tempDataValues.workers.push({
+      workerID: workerID,
+      worker: worker,
+      hours: 0
+    });
+    console.log(tempDataValues);
+
+    let stringedField = "";
+    tempDataValues.workers.map((field) => {
+      stringedField += " " + field.worker;
+    });
+
+    const tempFormData = [] as {
+      orderID: number;
+      workerID: number;
+      hours: 0;
+    }[];
+    tempWorkersField.map((worker) => {
+      tempFormData.push({
+        orderID: tempDataValues.orderID,
+        workerID: worker.workerID,
+        hours: 0
+      });
+    });
+    setFormData([...formData, ...tempFormData]);
+
+    // tempDataValues["workers"] = [{ workerID: workerID, worker: worker }];
+    // console.log(tempDataValues);
+    // // const workerls = [...workersField, { workerID: workerID, worker: worker }];
+    setWorkersField(stringedField);
+  };
+
+  const addTime = (e: ChangeEvent<HTMLInputElement>, workerID) => {
+    // formData = formData as {};
+    console.log(formData, workerID, e.target.value);
+    const result = formData.filter((w) => {
+      return w.workerID === workerID;
+    });
+
+    result[0].hours = +e.target.value;
+  };
+
+  const submitWorkingTime = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(formData);
   };
 
   return (
-    <div className="flex">
+    <div>
       <div>
         <h2>Add Working Time</h2>
-        <form
-          onSubmit={(e) => {
-            console.log(orderForm);
-            e.preventDefault();
-          }}
-        >
+        <form className="flex flex-col" onSubmit={(e) => submitWorkingTime(e)}>
+          <input type="submit" />
           <label>
             Order:
             <input
@@ -51,19 +116,20 @@ const AddWorkingTimeForm: FunctionComponent = () => {
               value={orderField}
               readOnly
             />
-            <input type="submit" />
           </label>
-          {orders.map((order) => {
-            return (
-              <button
-                className="m-2 border-2"
-                key={order.id}
-                onClick={() => addOrderToField(order.id, order.name)}
-              >
-                {order.name}
-              </button>
-            );
-          })}
+          <div>
+            {orders.map((order) => {
+              return (
+                <button
+                  className="m-2 border-2"
+                  key={order.id}
+                  onClick={() => addOrderToField(order.id, order.name)}
+                >
+                  {order.name}
+                </button>
+              );
+            })}
+          </div>
           <label>
             Workers:
             <input
@@ -72,19 +138,30 @@ const AddWorkingTimeForm: FunctionComponent = () => {
               value={workersField}
               readOnly
             />
-            <input type="submit" />
           </label>
-          {data.map((worker) => {
-            return (
-              <button
-                key={worker.id}
-                className="m2 border-2"
-                onClick={() => addWorkersField(worker.id, worker.name)}
-              >
-                {worker.name}
-              </button>
-            );
-          })}
+          <div className="flex flex-wrap">
+            {data.map((worker) => {
+              return (
+                <div key={worker.id} className="flex">
+                  <span>Name: </span>
+                  <button
+                    className="m-2 border-2"
+                    onClick={() => addWorkersField(worker.id, worker.name)}
+                  >
+                    {worker.name}
+                  </button>
+                  <label>
+                    Hours:
+                    <input
+                      onChange={(e) => addTime(e, worker.id)}
+                      className="m-2 border-2 w-8"
+                      type="number"
+                    />
+                  </label>
+                </div>
+              );
+            })}
+          </div>
         </form>
       </div>
     </div>
