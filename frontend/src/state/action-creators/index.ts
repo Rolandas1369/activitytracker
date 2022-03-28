@@ -5,6 +5,11 @@ import { OrdersActions } from "../actions";
 import { RepositoriesAction } from "../actions/searchRepositoriesActions";
 import axiosInstance from "../../components/axiosInstance";
 import { WorkingTimeAPI } from "../../interfaces/interfaces";
+import { WorkDaysAction } from "../actions/workdaysActions";
+
+interface WorkDaysApis {
+  data: { id: number; date: string; date_formated: string }[];
+}
 
 interface WorkersAPI {
   data: {
@@ -82,6 +87,26 @@ export const getOrdersList = () => {
     } catch (err: unknown) {
       dispatch({
         type: ActionType.SEARCH_ORDERS_ERROR,
+        payload: String(err)
+      });
+    }
+  };
+};
+
+export const getWorkDaysList = () => {
+  return async (dispatch: Dispatch<WorkDaysAction>): Promise<void> => {
+    dispatch({ type: ActionType.SEARCH_WORKDAYS });
+
+    try {
+      const { data }: WorkDaysApis = await axiosInstance.get("workdays/");
+      console.log(data);
+      dispatch({
+        type: ActionType.SEARCH_WORKDAYS_SUCCESS,
+        payload: data
+      });
+    } catch (err: unknown) {
+      dispatch({
+        type: ActionType.SEARCH_WORKDAYS_ERROR,
         payload: String(err)
       });
     }

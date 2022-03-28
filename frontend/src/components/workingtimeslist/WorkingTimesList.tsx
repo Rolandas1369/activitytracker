@@ -35,7 +35,6 @@ const WorkingTimesList: FunctionComponent = () => {
       ></ApiFiltersNav> */}
       {data
         ? data.map((workingtime) => {
-            console.log(workingtime);
             return (
               <WorkingTime
                 key={workingtime.id}

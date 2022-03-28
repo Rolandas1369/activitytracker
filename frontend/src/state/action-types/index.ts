@@ -7,5 +7,8 @@ export enum ActionType {
   SEARCH_WORKERS_ERROR = "search_workers_error",
   SEARCH_ORDERS = "search_orders",
   SEARCH_ORDERS_SUCCESS = "search_orders_success",
-  SEARCH_ORDERS_ERROR = "search_orders_error"
+  SEARCH_ORDERS_ERROR = "search_orders_error",
+  SEARCH_WORKDAYS = "search_workdays",
+  SEARCH_WORKDAYS_SUCCESS = "search_workdays_success",
+  SEARCH_WORKDAYS_ERROR = "search_workdays_error"
 }
