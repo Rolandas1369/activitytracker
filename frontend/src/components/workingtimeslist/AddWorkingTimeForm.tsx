@@ -6,11 +6,10 @@ import {
   useEffect,
   useState
 } from "react";
-import CreateForm from "../createform/CreateForm";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useActions } from "../../hooks/useActions";
 import axiosInstance from "../axiosInstance";
-import { workers } from "cluster";
+import FormSection from "./FormSection";
 
 const AddWorkingTimeForm: FunctionComponent = () => {
   const { getOrdersList } = useActions();
@@ -19,6 +18,7 @@ const AddWorkingTimeForm: FunctionComponent = () => {
   const { orders } = useTypedSelector((state) => state.orders);
   const { data } = useTypedSelector((state) => state.workers);
   const { workdays } = useTypedSelector((state) => state.workdays);
+  const [message, setMessage] = useState<string | null>(null);
 
   const [orderField, setOrderField] = useState<{
     order_id: number;
@@ -42,9 +42,6 @@ const AddWorkingTimeForm: FunctionComponent = () => {
     getOrdersList();
     getWorkersList();
     getWorkDaysList();
-    if (data.length > 0) {
-      console.log("Data");
-    }
   }, []);
 
   const addOrderToField = (orderID, orderName) => {
@@ -93,7 +90,8 @@ const AddWorkingTimeForm: FunctionComponent = () => {
     const temp_data = [];
     workersField.map((worker) => {
       if (worker.hours === null) {
-        console.log("xx");
+        setMessage(`Worker ${worker.worker_name} does't have working hours`);
+        return;
       }
       console.log("Returning");
       temp_data.push({
@@ -103,16 +101,19 @@ const AddWorkingTimeForm: FunctionComponent = () => {
         hours: worker.hours
       });
     });
+    if (temp_data.length === 0) {
+      return;
+    }
 
     console.log(temp_data, workersField);
-    // void axiosInstance
-    //   .post("workingtimespost/", temp_data)
-    //   .then((res) => console.log(res));
-  };
-  console.log(data);
-
-  const setAditionalData = () => {
-    console.log(data);
+    void axiosInstance.post("workingtimespost/", temp_data).then((res) => {
+      setOrderField({ order_id: null, order_name: "" });
+      setWorkersField([]);
+      setWorkDayField({ workday_id: null, date_formated: "" });
+      if (res.status === 200) {
+        console.log("ok");
+      }
+    });
   };
 
   return (
@@ -125,23 +126,39 @@ const AddWorkingTimeForm: FunctionComponent = () => {
           <input
             className="m-2 border-2"
             type="text"
+            required
             value={orderField.order_name}
             readOnly
           />
         </label>
         <div className="border-2">
-          {orders.map((order) => {
-            return (
-              <button
-                className="m-2 border-2"
-                type="button"
-                key={order.id}
-                onClick={() => addOrderToField(order.id, order.name)}
-              >
-                {order.name}
-              </button>
-            );
-          })}
+          {orders
+            ? orders.map((order) => {
+                return (
+                  <FormSection
+                    key={order.id}
+                    id={order.id}
+                    name={order.name}
+                    location={order.location}
+                    starting_at={order.starting_at}
+                    began_at={order.began_at}
+                    ended_at={order.ended_at}
+                    completed={order.completed}
+                    price={order.price}
+                  ></FormSection>
+                );
+                // return (
+                //   <button
+                //     className="m-2 border-2"
+                //     type="button"
+                //     key={order.id}
+                //     onClick={() => addOrderToField(order.id, order.name)}
+                //   >
+                //     {order.name}
+                //   </button>
+                // );
+              })
+            : null}
         </div>
         <div>
           <label>
@@ -149,10 +166,12 @@ const AddWorkingTimeForm: FunctionComponent = () => {
             <input
               className="m-2 border-2"
               type="text"
+              required
               value={workersField.map((worker) => worker.worker_name)}
               readOnly
             />
           </label>
+          {message}
           <div className="flex flex-wrap  border-2">
             {data.map((worker) => {
               return (
@@ -185,6 +204,7 @@ const AddWorkingTimeForm: FunctionComponent = () => {
               <input
                 className="m-2 border-2"
                 type="text"
+                required
                 value={workDayField.date_formated}
                 readOnly
               />
