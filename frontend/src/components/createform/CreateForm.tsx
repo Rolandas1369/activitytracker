@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../axiosInstance";
 import { useActions } from "../../hooks/useActions";
+import { getOrdersList } from "../../state/action-creators";
 
 interface APIOptions {
   actions: {
@@ -13,6 +14,7 @@ interface FormEndpoint {
   APIEndpoint: string;
   editable?: boolean;
   data?: any[];
+  updateData?: () => void;
 }
 
 const CreateForm: React.FC<FormEndpoint> = (props) => {
@@ -140,7 +142,7 @@ const CreateForm: React.FC<FormEndpoint> = (props) => {
                 type="text"
               ></input>
             </label>
-          ),
+          )
         };
         console.log(mapper[fieldData.type]);
         return mapper[fieldData.type] as {
@@ -171,18 +173,18 @@ const CreateForm: React.FC<FormEndpoint> = (props) => {
   const onSubmitForm = (e: React.SyntheticEvent) => {
     e.preventDefault();
     console.log(formData);
+    
     void axiosInstance.post(props.APIEndpoint, formData).then((res) => {
-      if (props.APIEndpoint === "workers/") {
-        getWorkersList();
-      }
-      // console.log("Submit completed", res);
+      props.updateData();
+
+      console.log("Submit completed", res);
     });
   };
 
   return (
     <div>
       <form onSubmit={onSubmitForm} className="flex flex-col">
-        {formFields} <input type="submit" />
+        {formFields} <input className="cursor-pointer" type="submit" />
       </form>
     </div>
   );

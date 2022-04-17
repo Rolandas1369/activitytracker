@@ -14,15 +14,24 @@ const AddOrderForm: FunctionComponent = () => {
 
   return (
     <div className="flex">
-      <div>
-        <h2>Current orders</h2>
-        {orders.map((order) => {
-          return <p key={order.id}>{order.name}</p>;
-        })}
+      <div className="border-2 m-2 p-2">
+        <h2>
+          <strong>Current orders</strong>
+        </h2>
+        <div className="pt-3">
+          {orders.map((order) => {
+            return <p key={order.id}>{order.name}</p>;
+          })}
+        </div>
       </div>
-      <div>
-        <h2>Add order</h2>
-        <CreateForm APIEndpoint="orders/"></CreateForm>
+      <div className="border-2 m-2 p-2 w-auto">
+        <h2>
+          <strong>Add order</strong>
+        </h2>
+        <CreateForm
+          APIEndpoint="orders/"
+          updateData={getOrdersList}
+        ></CreateForm>
       </div>
     </div>
   );
